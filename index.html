@@ -240,6 +240,509 @@
             
               
                 
+                <a class="post-title-link" href="/2017/05/23/HoloLens/HoloLens+Unity 手势与运动控制/" itemprop="url">
+                  HoloLens+Unity 手势与运动控制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-23T22:30:15+08:00" content="2017-05-23">
+              2017-05-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/HoloLens/" itemprop="url" rel="index">
+                    <span itemprop="name">HoloLens</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/23/HoloLens/HoloLens+Unity 手势与运动控制/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/23/HoloLens/HoloLens+Unity 手势与运动控制/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>对于gaze物体的行为有两种方式实现，手势（gestures）和运动控制（motion controllers）。</p>
+<p>资料来源：<a href="https://developer.microsoft.com/en-us/windows/mixed-reality/gestures_and_motion_controllers_in_unity" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/mixed-reality/gestures_and_motion_controllers_in_unity</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/23/HoloLens/HoloLens+Unity Gaze/" itemprop="url">
+                  HoloLens+Unity Gaze
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-23T22:07:07+08:00" content="2017-05-23">
+              2017-05-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/HoloLens/" itemprop="url" rel="index">
+                    <span itemprop="name">HoloLens</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/23/HoloLens/HoloLens+Unity Gaze/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/23/HoloLens/HoloLens+Unity Gaze/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Gaze（凝视）是Hololens中用户用于确定全息目标的基本方法，用户视野中会出现一个随视角移动的光标用于选择物体。光标的产生是由用户的头向HoloLens发出射线，根据射线的碰撞位置显示。</p>
+<p>在unity中，用户头的位置和方向和主相机一致，即UnityEngine.Camera.main.tranform.position与 UnityEngine.Camera.main.tranform.forward。随后即可通过物理射线Physics.RayCast导致的射线碰撞RaycastHit来确定碰撞到的物体是哪一个。<br>void Update()<br>{<br>       RaycastHit hitInfo;<br>       if (Physics.Raycast(<br>               Camera.main.transform.position,<br>               Camera.main.transform.forward,<br>               out hitInfo,<br>               20.0f,<br>               Physics.DefaultRaycastLayers))<br>       {<br>           // If the Raycast has succeeded and hit a hologram<br>           // hitInfo’s point represents the position being gazed at<br>           // hitInfo’s collider GameObject represents the hologram being gazed at<br>       }<br>}</p>
+<p>关于gaze的可视化可以在GitHub的HoloToolkit-Unity仓库的GazeManager.cs中找到。Cursor.prefab和CursorWithFeedback.prefab展示了如何进行gaze光标的可视化。</p>
+<p>资料来源：<a href="https://developer.microsoft.com/en-us/windows/mixed-reality/gaze_in_unity" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/mixed-reality/gaze_in_unity</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/23/HoloLens/HoloLens+Unity 坐标系统/" itemprop="url">
+                  HoloLens+Unity 坐标系统
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-23T20:53:39+08:00" content="2017-05-23">
+              2017-05-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/HoloLens/" itemprop="url" rel="index">
+                    <span itemprop="name">HoloLens</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/23/HoloLens/HoloLens+Unity 坐标系统/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/23/HoloLens/HoloLens+Unity 坐标系统/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>HoloLens支持不同的体验范围（experience scales）。有orientation-only, seated-scale, room-scale, world-scale等几种。</p>
+<p></p><h1>Orientation-only or Seated-scale Experience</h1><br>Namespace: UnityEngine.VR<br>Type: InputTracking<br>可以直接在Unity的世界坐标系中进行编辑，出现在相机视野里的物体将出现在应用中。<p></p>
+<p>纯粹的orientation-only experience:<br>InputTracking.disablePositionalTracking = true;</p>
+<p>seated-scale experience中重新调整seat位置：<br>InputTracking.Recenter();</p>
+<p></p><h1>Standing-scale or Room-scale Experience</h1><br>Namespace: UnityEngine.VR.WSA<br>Type: StageRoot<br>第一次开启时检测地板与房间边界（墙壁）的位置，定义的物体将在此范围内。<p></p>
+<p>要将Unity层次结构的分支定位到用户定义的层起始点，需将StageRoot组件添加到根游戏对象，随后这个对象将保持在指定的位置。<br>在脚本中可以通过调用StageRoot中的TryGetBounds方法获得边界多边形，随后即可进行碰撞检测。注意系统将在用户碰到时自动显示边界。</p>
+<p></p><h1>World-scale Experience</h1><br>Namespace: UnityEngine.VR.WSA<br>Type: WorldAnchor<p></p>
+<p>world-scale experience允许用户移动超过5米，这需要些额外的新技术。一种是空间锚点（spatial anchor）。不管用户走到哪，锚点会保存一系列的物理世界中全息图（holograms）以便后面使用。<br>在unity中，添加WorldAnchor组件给GameObject即可创建空间锚点。</p>
+<p></p><h3>添加WorldAnchor</h3><br>WorldAnchor anchor = gameObject.AddComponent<worldanchor>();<p></p>
+<p></p><h3>移除添加WorldAnchor</h3><br>当前帧不移动<br>Destroy(gameObject.GetComponent<worldanchor>());<br>当前帧移动<br>DestroyImmediate(gameObject.GetComponent<worldanchor>());<p></p>
+<p></p><h3>移动锚点物体</h3><br>DestroyImmediate(gameObject.GetComponent<worldanchor>());<br>gameObject.transform.position = new Vector3(0, 0, 2);<br>WorldAnchor anchor = gameObject.AddComponent<worldanchor>();<p></p>
+<p></p><h3>处理可定位变化</h3><br>WorldAnchor在某个时间点可能无法在物理世界中找到。如果发生这种情况，Unity将不会更新锚点对象的变换。这也可以在应用程序运行时更改。不能处理可定位性的变化将导致物体不会出现在世界上正确的物理位置。需要订阅OnTrackingChanged事件，随后处理事件。OnTrackingChanged事件将在空间锚点可定位与不可定位切换时触发。<br>anchor.OnTrackingChanged += Anchor_OnTrackingChanged;<br>private void Anchor_OnTrackingChanged(WorldAnchor self, bool located)<br>{<br>       // This simply activates/deactivates this object and all children when tracking changes<br>    self.gameObject.SetActiveRecursively(located);<br>}<br>调用<br>Anchor_OnTrackingChanged(anchor, anchor.isLocated);<p></p>
+<p>资料来源：<a href="https://developer.microsoft.com/en-us/windows/mixed-reality/Coordinate_systems_in_Unity.html#building_a_standing-scale_or_room-scale_experience" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/mixed-reality/Coordinate_systems_in_Unity.html#building_a_standing-scale_or_room-scale_experience</a></p>
+</worldanchor></worldanchor></worldanchor></worldanchor></worldanchor>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/23/HoloLens/HoloLens+Unity 开发环境搭建/" itemprop="url">
+                  HoloLens+Unity 开发环境搭建
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-23T20:22:55+08:00" content="2017-05-23">
+              2017-05-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/HoloLens/" itemprop="url" rel="index">
+                    <span itemprop="name">HoloLens</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/23/HoloLens/HoloLens+Unity 开发环境搭建/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/23/HoloLens/HoloLens+Unity 开发环境搭建/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>毕业设计选择了在HoloLens上进行应用开发，这里记录一下HoloLens的学习过程。目前打算制作基于HoloLens的三维中国象棋游戏，采用了Unity作为开发工具，毕竟微软提供了各种API接口供调用，应该算是最快速的开发方式之一了。</p>
+<p></p><h1>开发环境搭建</h1><br>1.Visual Studio 2017 微软产品通用的开发工具。在Unity游戏完成后将其作为VS文件导出，再通过Visual Studio打开，编译并运行。<br>2.HoloLens Emulator HoloLens模拟器，其实就是虚拟机。需要Windows 10专业版或教育版才能运行，因为需要Hyper-V支持。Mac电脑可以装双系统的Windows使用模拟器，但是需要在Bootcamp中设置windows系统为首选系统开启才能使用，不然会检测到BIOS不支持虚拟机进而打不开模拟器。<br>3.Unity 5.5版本以上 游戏的主要开发环境，需要为HoloLens的使用进行配置。<br>Select File &gt; Build Settings…<br>Select Windows Store in the Platform list and click Switch Platform<br>Set SDK to Universal 10<br>Set Target device to Any Device to support immersive headsets or switch to HoloLens<br>Set Build Type to D3D<br>Set UWP SDK to Latest installed<p></p>
+<p>From the Build Settings… window, open Player Settings…<br>Select the Settings for Windows Store tab<br>Expand the Other Settings group<br>In the Rendering section, check the Virtual Reality Supported checkbox to add a new Virtual Reality Devices list and confirm “Windows Mixed Reality” is listed as a supported device (this will appear as “Windows Holographic” on some versions of Unity)</p>
+<p>一些功能需要额外开启<br>Player Settings &gt; Windows Store &gt; Publishing Settings &gt; Capabilities<br>SpatialPerception: SurfaceObserver<br>WebCam: PhotoCapture and VideoCapture<br>PicturesLibrary/VideosLibrary: PhotoCapture or VideoCapture, respectively (when storing the captured content)<br>Microphone: VideoCapture (when capturing audio), DictationRecognizer, GrammarRecognizer, and KeywordRecognizer<br>InternetClient: DictationRecognizer (and to use the Unity Profiler)</p>
+<p>HoloLens的GPU仅是移动版的，需要降低图像质量来获得更高的速度<br>Select Edit &gt; Project Settings &gt; Quality<br>Select the dropdown under the Windows Store logo and select Fastest. You’ll know the setting is applied correctly when the box in the Windows Store column and Fastest row is green.</p>
+<p>场景中的主相机需要进行设定<br>In the Inspector panel, set the transform position to 0, 0, 0 so the location of the users head starts at the Unity world origin.<br>Change Clear Flags to Solid Color.<br>Change the Background color to RGBA 0,0,0,0. Black renders as transparent in HoloLens.<br>Change Clipping Planes - Near to the HoloLens recommended 0.85 (meters).</p>
+<p>一些额外的功能可以通过Unity APIs来实现，具体可以在Unity manual或Unity scripting reference中找到</p>
+<p>资料来源：<a href="https://developer.microsoft.com/en-us/windows/mixed-reality/unity_development_overview" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/mixed-reality/unity_development_overview</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/04/24/游戏策划/游戏分析/手游阴阳师分析/" itemprop="url">
                   手游阴阳师分析
                 </a>
@@ -333,7 +836,7 @@
 <p>三、美术风格<br>角色风格：介于Q版与写实版之间，风格统一。2d原画朴素，3d模型制作在手游中较好，骨骼动作制作用心。不同角色动作各不相同，战斗中额外动作不少（如转头看），面部表情无变化。<br>效果：风格统一。不同角色效果不一，中规中矩。<br>场景：场景原画分层抠图插片摆放，战斗场景2d+3d混合，还原原画质量。<br>UI：同样风格统一，制作精良。</p>
 <p>四、音乐与音效<br>音乐：梅林茂配乐，平安时期和风音乐。符合游戏背景，平静之中带有些许阴冷，然而无法给人以深刻印象。<br>音效：中规中矩。</p>
 <p>五、评价<br>优点：<br>1.美术优质且一致。从角色到场景到UI都属于高水准，领先同时期的其他手游。在二次元与现实画风之间找到平衡，吸引了两方面的玩家。<br>2.手机操作回合制战斗简单，适合大多数玩家的战斗难度与深度。<br>3.给予玩家一些遥不可及的目标（御魂随机属性），延长游戏寿命。<br>4.游戏内社交功能完善。<br>5.运用了一些较新的技术吸引玩家，如AR召唤、现实地图社交等。<br>6.官方积极开展联动和同人活动。</p>
-<p>缺点：<br>1.游戏内容缺乏，玩法多样性低。PVE单一且没有变数，PVP限制时间且平衡性不好（导致阵容单一）。<br>2.在游戏内容缺乏的基础上绑定玩家大量时间，导致厌烦。<br>3.数值线单一，最终区分都在御魂与式神上。<br>4.角色塑造薄弱，语音太少，剧情太少。</p>
+<p>缺点：<br>1.游戏内容缺乏，玩法多样性低。PVE单一且没有变数，PVP限制时间。<br>2.在游戏内容缺乏的基础上绑定玩家大量时间，导致厌烦。<br>3.数值线单一，最终区分都在御魂与式神上。<br>4.角色塑造薄弱，语音太少，剧情太少。</p>
 
           
         
@@ -774,125 +1277,6 @@
             
               
                 
-                <a class="post-title-link" href="/2017/03/26/游戏策划/美术风格/美术风格/" itemprop="url">
-                  美术风格
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-26T18:14:25+08:00" content="2017-03-26">
-              2017-03-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/美术风格/" itemprop="url" rel="index">
-                    <span itemprop="name">美术风格</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/03/26/游戏策划/美术风格/美术风格/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/26/游戏策划/美术风格/美术风格/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2017/03/26/游戏策划/游戏系统/游戏系统/" itemprop="url">
                   游戏系统
                 </a>
@@ -1013,8 +1397,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/03/26/游戏策划/游戏类型/游戏类型/" itemprop="url">
-                  游戏类型
+                <a class="post-title-link" href="/2017/03/26/游戏策划/美术风格/美术风格/" itemprop="url">
+                  美术风格
                 </a>
               
             
@@ -1027,7 +1411,7 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-26T17:30:00+08:00" content="2017-03-26">
+            <time itemprop="dateCreated" datetime="2017-03-26T18:14:25+08:00" content="2017-03-26">
               2017-03-26
             </time>
           </span>
@@ -1041,8 +1425,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/游戏类型/" itemprop="url" rel="index">
-                    <span itemprop="name">游戏类型</span>
+                  <a href="/categories/美术风格/" itemprop="url" rel="index">
+                    <span itemprop="name">美术风格</span>
                   </a>
                 </span>
 
@@ -1057,8 +1441,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2017/03/26/游戏策划/游戏类型/游戏类型/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/26/游戏策划/游戏类型/游戏类型/" itemprop="commentsCount"></span>
+                <a href="/2017/03/26/游戏策划/美术风格/美术风格/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/26/游戏策划/美术风格/美术风格/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -1083,372 +1467,7 @@
       
         
           
-            <p>按游戏方式分类<br>1.动作游戏<br>    1.1射击游戏<br>    1.2格斗游戏<br>2.冒险游戏<br>3.模拟游戏<br>4.角色扮演游戏<br>5.策略游戏<br>    5.1回合制<br>    5.2即时制<br>6.竞速游戏<br>7.体育游戏<br>8.音乐游戏<br>9.休闲游戏<br>10.沙盒游戏</p>
-<p>按游戏平台分类<br>1.电脑<br>2.街机<br>3.主机<br>4.网页<br>5.手机</p>
-<p>按主题分类<br>1.幻想<br>2.历史<br>3.恐怖<br>4.体育<br>5.经营<br>…(很多，以后继续补充)</p>
-<p>按玩家人数<br>1.单人<br>2.单人+同步对战<br>3.多人+异步对战<br>4.多人+同步对战<br>5.多人在线</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
             
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/26/游戏策划/游戏知识总览/" itemprop="url">
-                  游戏知识总览
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-26T16:32:22+08:00" content="2017-03-26">
-              2017-03-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/总览/" itemprop="url" rel="index">
-                    <span itemprop="name">总览</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/03/26/游戏策划/游戏知识总览/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/26/游戏策划/游戏知识总览/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.游戏类型<br>2.游戏系统<br>3.美术风格<br>4.音乐与音效<br>5.游戏心理</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/26/重新开始/" itemprop="url">
-                  重新开始
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-26T15:32:00+08:00" content="2017-03-26">
-              2017-03-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/杂谈/" itemprop="url" rel="index">
-                    <span itemprop="name">杂谈</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/03/26/重新开始/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/26/重新开始/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>距离上次更新已经经过了两个多月了，现在准备重新开始写写自己关于游戏策划的学习。我先列出了自己认知中游戏整体框架，细节部分以后将慢慢补充，如果有错误的地方自己也会进行修改。如果对于文章中的看法有异议或者疑问的话也欢迎在评论里和我交流~</p>
-<p>这里放一张我现在的桌面背景吧~（其实是为了测试下怎么发图片=-=）<br><img src="/images/kuon.jpg" alt=""></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/11/第一篇文章/" itemprop="url">
-                  第一篇文章
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-01-11T16:32:22+08:00" content="2017-01-11">
-              2017-01-11
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/杂谈/" itemprop="url" rel="index">
-                    <span itemprop="name">杂谈</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/01/11/第一篇文章/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/11/第一篇文章/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>为了以后更好地自己的学习过程，准备在此记录每天的学习经历。由于还是初学者，所以网站还有些简陋，以后将会慢慢完善~</p>
-
           
         
       
@@ -1479,6 +1498,10 @@
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1517,7 +1540,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1525,7 +1548,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

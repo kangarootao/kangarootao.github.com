@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="为了以后更好地自己的学习过程，准备在此记录每天的学习经历。由于还是初学者，所以网站还有些简陋，以后将会慢慢完善~">
+<meta name="description" content="Gaze（凝视）是Hololens中用户用于确定全息目标的基本方法，用户视野中会出现一个随视角移动的光标用于选择物体。光标的产生是由用户的头向HoloLens发出射线，根据射线的碰撞位置显示。
+在unity中，用户头的位置和方向和主相机一致，即UnityEngine.Camera.main.tranform.position与 UnityEngine.Camera.main.tranform.fo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第一篇文章">
-<meta property="og:url" content="http://kangarootao.github.io/2017/01/11/第一篇文章/index.html">
+<meta property="og:title" content="HoloLens+Unity Gaze">
+<meta property="og:url" content="http://kangarootao.github.io/2017/05/23/HoloLens/HoloLens+Unity Gaze/index.html">
 <meta property="og:site_name" content="Kangarootao的主页">
-<meta property="og:description" content="为了以后更好地自己的学习过程，准备在此记录每天的学习经历。由于还是初学者，所以网站还有些简陋，以后将会慢慢完善~">
-<meta property="og:updated_time" content="2017-01-11T09:06:32.000Z">
+<meta property="og:description" content="Gaze（凝视）是Hololens中用户用于确定全息目标的基本方法，用户视野中会出现一个随视角移动的光标用于选择物体。光标的产生是由用户的头向HoloLens发出射线，根据射线的碰撞位置显示。
+在unity中，用户头的位置和方向和主相机一致，即UnityEngine.Camera.main.tranform.position与 UnityEngine.Camera.main.tranform.fo">
+<meta property="og:updated_time" content="2017-05-23T14:22:15.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="第一篇文章">
-<meta name="twitter:description" content="为了以后更好地自己的学习过程，准备在此记录每天的学习经历。由于还是初学者，所以网站还有些简陋，以后将会慢慢完善~">
+<meta name="twitter:title" content="HoloLens+Unity Gaze">
+<meta name="twitter:description" content="Gaze（凝视）是Hololens中用户用于确定全息目标的基本方法，用户视野中会出现一个随视角移动的光标用于选择物体。光标的产生是由用户的头向HoloLens发出射线，根据射线的碰撞位置显示。
+在unity中，用户头的位置和方向和主相机一致，即UnityEngine.Camera.main.tranform.position与 UnityEngine.Camera.main.tranform.fo">
 
 
 
@@ -111,7 +114,7 @@
   };
 </script>
 
-  <title> 第一篇文章 | Kangarootao的主页 </title>
+  <title> HoloLens+Unity Gaze | Kangarootao的主页 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -241,7 +244,7 @@
             
             
               
-                第一篇文章
+                HoloLens+Unity Gaze
               
             
           </h1>
@@ -253,8 +256,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-01-11T16:32:22+08:00" content="2017-01-11">
-              2017-01-11
+            <time itemprop="dateCreated" datetime="2017-05-23T22:07:07+08:00" content="2017-05-23">
+              2017-05-23
             </time>
           </span>
 
@@ -267,8 +270,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/杂谈/" itemprop="url" rel="index">
-                    <span itemprop="name">杂谈</span>
+                  <a href="/categories/HoloLens/" itemprop="url" rel="index">
+                    <span itemprop="name">HoloLens</span>
                   </a>
                 </span>
 
@@ -283,8 +286,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2017/01/11/第一篇文章/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/11/第一篇文章/" itemprop="commentsCount"></span>
+                <a href="/2017/05/23/HoloLens/HoloLens+Unity Gaze/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/23/HoloLens/HoloLens+Unity Gaze/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -307,7 +310,10 @@
       
 
       
-        <p>为了以后更好地自己的学习过程，准备在此记录每天的学习经历。由于还是初学者，所以网站还有些简陋，以后将会慢慢完善~</p>
+        <p>Gaze（凝视）是Hololens中用户用于确定全息目标的基本方法，用户视野中会出现一个随视角移动的光标用于选择物体。光标的产生是由用户的头向HoloLens发出射线，根据射线的碰撞位置显示。</p>
+<p>在unity中，用户头的位置和方向和主相机一致，即UnityEngine.Camera.main.tranform.position与 UnityEngine.Camera.main.tranform.forward。随后即可通过物理射线Physics.RayCast导致的射线碰撞RaycastHit来确定碰撞到的物体是哪一个。<br>void Update()<br>{<br>       RaycastHit hitInfo;<br>       if (Physics.Raycast(<br>               Camera.main.transform.position,<br>               Camera.main.transform.forward,<br>               out hitInfo,<br>               20.0f,<br>               Physics.DefaultRaycastLayers))<br>       {<br>           // If the Raycast has succeeded and hit a hologram<br>           // hitInfo’s point represents the position being gazed at<br>           // hitInfo’s collider GameObject represents the hologram being gazed at<br>       }<br>}</p>
+<p>关于gaze的可视化可以在GitHub的HoloToolkit-Unity仓库的GazeManager.cs中找到。Cursor.prefab和CursorWithFeedback.prefab展示了如何进行gaze光标的可视化。</p>
+<p>资料来源：<a href="https://developer.microsoft.com/en-us/windows/mixed-reality/gaze_in_unity" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/mixed-reality/gaze_in_unity</a></p>
 
       
     </div>
@@ -332,12 +338,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/05/23/HoloLens/HoloLens+Unity 坐标系统/" rel="next" title="HoloLens+Unity 坐标系统">
+                <i class="fa fa-chevron-left"></i> HoloLens+Unity 坐标系统
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/26/重新开始/" rel="prev" title="重新开始">
-                重新开始 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/05/23/HoloLens/HoloLens+Unity 手势与运动控制/" rel="prev" title="HoloLens+Unity 手势与运动控制">
+                HoloLens+Unity 手势与运动控制 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -364,8 +374,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/11/第一篇文章/"
-           data-title="第一篇文章" data-url="http://kangarootao.github.io/2017/01/11/第一篇文章/">
+      <div class="ds-thread" data-thread-key="2017/05/23/HoloLens/HoloLens+Unity Gaze/"
+           data-title="HoloLens+Unity Gaze" data-url="http://kangarootao.github.io/2017/05/23/HoloLens/HoloLens+Unity Gaze/">
       </div>
     
   </div>

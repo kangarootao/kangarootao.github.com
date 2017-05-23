@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="为了以后更好地自己的学习过程，准备在此记录每天的学习经历。由于还是初学者，所以网站还有些简陋，以后将会慢慢完善~">
+<meta name="description" content="HoloLens支持不同的体验范围（experience scales）。有orientation-only, seated-scale, room-scale, world-scale等几种。
+Orientation-only or Seated-scale ExperienceNamespace: UnityEngine.VRType: InputTracking可以直接在Unity的世界坐标">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第一篇文章">
-<meta property="og:url" content="http://kangarootao.github.io/2017/01/11/第一篇文章/index.html">
+<meta property="og:title" content="HoloLens+Unity 坐标系统">
+<meta property="og:url" content="http://kangarootao.github.io/2017/05/23/HoloLens/HoloLens+Unity 坐标系统/index.html">
 <meta property="og:site_name" content="Kangarootao的主页">
-<meta property="og:description" content="为了以后更好地自己的学习过程，准备在此记录每天的学习经历。由于还是初学者，所以网站还有些简陋，以后将会慢慢完善~">
-<meta property="og:updated_time" content="2017-01-11T09:06:32.000Z">
+<meta property="og:description" content="HoloLens支持不同的体验范围（experience scales）。有orientation-only, seated-scale, room-scale, world-scale等几种。
+Orientation-only or Seated-scale ExperienceNamespace: UnityEngine.VRType: InputTracking可以直接在Unity的世界坐标">
+<meta property="og:updated_time" content="2017-05-23T14:22:11.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="第一篇文章">
-<meta name="twitter:description" content="为了以后更好地自己的学习过程，准备在此记录每天的学习经历。由于还是初学者，所以网站还有些简陋，以后将会慢慢完善~">
+<meta name="twitter:title" content="HoloLens+Unity 坐标系统">
+<meta name="twitter:description" content="HoloLens支持不同的体验范围（experience scales）。有orientation-only, seated-scale, room-scale, world-scale等几种。
+Orientation-only or Seated-scale ExperienceNamespace: UnityEngine.VRType: InputTracking可以直接在Unity的世界坐标">
 
 
 
@@ -111,7 +114,7 @@
   };
 </script>
 
-  <title> 第一篇文章 | Kangarootao的主页 </title>
+  <title> HoloLens+Unity 坐标系统 | Kangarootao的主页 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -241,7 +244,7 @@
             
             
               
-                第一篇文章
+                HoloLens+Unity 坐标系统
               
             
           </h1>
@@ -253,8 +256,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-01-11T16:32:22+08:00" content="2017-01-11">
-              2017-01-11
+            <time itemprop="dateCreated" datetime="2017-05-23T20:53:39+08:00" content="2017-05-23">
+              2017-05-23
             </time>
           </span>
 
@@ -267,8 +270,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/杂谈/" itemprop="url" rel="index">
-                    <span itemprop="name">杂谈</span>
+                  <a href="/categories/HoloLens/" itemprop="url" rel="index">
+                    <span itemprop="name">HoloLens</span>
                   </a>
                 </span>
 
@@ -283,8 +286,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2017/01/11/第一篇文章/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/11/第一篇文章/" itemprop="commentsCount"></span>
+                <a href="/2017/05/23/HoloLens/HoloLens+Unity 坐标系统/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/23/HoloLens/HoloLens+Unity 坐标系统/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -307,8 +310,20 @@
       
 
       
-        <p>为了以后更好地自己的学习过程，准备在此记录每天的学习经历。由于还是初学者，所以网站还有些简陋，以后将会慢慢完善~</p>
-
+        <p>HoloLens支持不同的体验范围（experience scales）。有orientation-only, seated-scale, room-scale, world-scale等几种。</p>
+<p></p><h1>Orientation-only or Seated-scale Experience</h1><br>Namespace: UnityEngine.VR<br>Type: InputTracking<br>可以直接在Unity的世界坐标系中进行编辑，出现在相机视野里的物体将出现在应用中。<p></p>
+<p>纯粹的orientation-only experience:<br>InputTracking.disablePositionalTracking = true;</p>
+<p>seated-scale experience中重新调整seat位置：<br>InputTracking.Recenter();</p>
+<p></p><h1>Standing-scale or Room-scale Experience</h1><br>Namespace: UnityEngine.VR.WSA<br>Type: StageRoot<br>第一次开启时检测地板与房间边界（墙壁）的位置，定义的物体将在此范围内。<p></p>
+<p>要将Unity层次结构的分支定位到用户定义的层起始点，需将StageRoot组件添加到根游戏对象，随后这个对象将保持在指定的位置。<br>在脚本中可以通过调用StageRoot中的TryGetBounds方法获得边界多边形，随后即可进行碰撞检测。注意系统将在用户碰到时自动显示边界。</p>
+<p></p><h1>World-scale Experience</h1><br>Namespace: UnityEngine.VR.WSA<br>Type: WorldAnchor<p></p>
+<p>world-scale experience允许用户移动超过5米，这需要些额外的新技术。一种是空间锚点（spatial anchor）。不管用户走到哪，锚点会保存一系列的物理世界中全息图（holograms）以便后面使用。<br>在unity中，添加WorldAnchor组件给GameObject即可创建空间锚点。</p>
+<p></p><h3>添加WorldAnchor</h3><br>WorldAnchor anchor = gameObject.AddComponent<worldanchor>();<p></p>
+<p></p><h3>移除添加WorldAnchor</h3><br>当前帧不移动<br>Destroy(gameObject.GetComponent<worldanchor>());<br>当前帧移动<br>DestroyImmediate(gameObject.GetComponent<worldanchor>());<p></p>
+<p></p><h3>移动锚点物体</h3><br>DestroyImmediate(gameObject.GetComponent<worldanchor>());<br>gameObject.transform.position = new Vector3(0, 0, 2);<br>WorldAnchor anchor = gameObject.AddComponent<worldanchor>();<p></p>
+<p></p><h3>处理可定位变化</h3><br>WorldAnchor在某个时间点可能无法在物理世界中找到。如果发生这种情况，Unity将不会更新锚点对象的变换。这也可以在应用程序运行时更改。不能处理可定位性的变化将导致物体不会出现在世界上正确的物理位置。需要订阅OnTrackingChanged事件，随后处理事件。OnTrackingChanged事件将在空间锚点可定位与不可定位切换时触发。<br>anchor.OnTrackingChanged += Anchor_OnTrackingChanged;<br>private void Anchor_OnTrackingChanged(WorldAnchor self, bool located)<br>{<br>       // This simply activates/deactivates this object and all children when tracking changes<br>    self.gameObject.SetActiveRecursively(located);<br>}<br>调用<br>Anchor_OnTrackingChanged(anchor, anchor.isLocated);<p></p>
+<p>资料来源：<a href="https://developer.microsoft.com/en-us/windows/mixed-reality/Coordinate_systems_in_Unity.html#building_a_standing-scale_or_room-scale_experience" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/mixed-reality/Coordinate_systems_in_Unity.html#building_a_standing-scale_or_room-scale_experience</a></p>
+</worldanchor></worldanchor></worldanchor></worldanchor></worldanchor>
       
     </div>
 
@@ -332,12 +347,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/05/23/HoloLens/HoloLens+Unity 开发环境搭建/" rel="next" title="HoloLens+Unity 开发环境搭建">
+                <i class="fa fa-chevron-left"></i> HoloLens+Unity 开发环境搭建
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/26/重新开始/" rel="prev" title="重新开始">
-                重新开始 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/05/23/HoloLens/HoloLens+Unity Gaze/" rel="prev" title="HoloLens+Unity Gaze">
+                HoloLens+Unity Gaze <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -364,8 +383,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/11/第一篇文章/"
-           data-title="第一篇文章" data-url="http://kangarootao.github.io/2017/01/11/第一篇文章/">
+      <div class="ds-thread" data-thread-key="2017/05/23/HoloLens/HoloLens+Unity 坐标系统/"
+           data-title="HoloLens+Unity 坐标系统" data-url="http://kangarootao.github.io/2017/05/23/HoloLens/HoloLens+Unity 坐标系统/">
       </div>
     
   </div>
