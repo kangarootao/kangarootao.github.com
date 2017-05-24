@@ -84,19 +84,16 @@
 
 
 
-<meta name="description" content="对于gaze物体的行为有两种方式实现，手势（gestures）和运动控制（motion controllers）。
-资料来源：https://developer.microsoft.com/en-us/windows/mixed-reality/gestures_and_motion_controllers_in_unity">
+<meta name="description" content="Unity允许三种方式的语音输入。使用KeywordRecognizer（PhraseRecognizers的两类型之一）可以监听一系列命令。使用GrammarRecognizer（PhraseRecognizer的另一种类型）可以监听SRGS文件中定义的特定语法。使用DictationRecognizer可以监听任何单词并且能展示给用户。注意：dictation和phrase recogniti">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HoloLens+Unity 手势与运动控制">
-<meta property="og:url" content="http://kangarootao.github.io/2017/05/23/HoloLens/HoloLens+Unity 手势与运动控制/index.html">
+<meta property="og:title" content="HoloLens+Unity 语音输入">
+<meta property="og:url" content="http://kangarootao.github.io/2017/05/24/HoloLens/HoloLens+Unity 语音输入/index.html">
 <meta property="og:site_name" content="Kangarootao的主页">
-<meta property="og:description" content="对于gaze物体的行为有两种方式实现，手势（gestures）和运动控制（motion controllers）。
-资料来源：https://developer.microsoft.com/en-us/windows/mixed-reality/gestures_and_motion_controllers_in_unity">
-<meta property="og:updated_time" content="2017-05-23T14:34:12.000Z">
+<meta property="og:description" content="Unity允许三种方式的语音输入。使用KeywordRecognizer（PhraseRecognizers的两类型之一）可以监听一系列命令。使用GrammarRecognizer（PhraseRecognizer的另一种类型）可以监听SRGS文件中定义的特定语法。使用DictationRecognizer可以监听任何单词并且能展示给用户。注意：dictation和phrase recogniti">
+<meta property="og:updated_time" content="2017-05-24T17:07:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HoloLens+Unity 手势与运动控制">
-<meta name="twitter:description" content="对于gaze物体的行为有两种方式实现，手势（gestures）和运动控制（motion controllers）。
-资料来源：https://developer.microsoft.com/en-us/windows/mixed-reality/gestures_and_motion_controllers_in_unity">
+<meta name="twitter:title" content="HoloLens+Unity 语音输入">
+<meta name="twitter:description" content="Unity允许三种方式的语音输入。使用KeywordRecognizer（PhraseRecognizers的两类型之一）可以监听一系列命令。使用GrammarRecognizer（PhraseRecognizer的另一种类型）可以监听SRGS文件中定义的特定语法。使用DictationRecognizer可以监听任何单词并且能展示给用户。注意：dictation和phrase recogniti">
 
 
 
@@ -114,7 +111,7 @@
   };
 </script>
 
-  <title> HoloLens+Unity 手势与运动控制 | Kangarootao的主页 </title>
+  <title> HoloLens+Unity 语音输入 | Kangarootao的主页 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -244,7 +241,7 @@
             
             
               
-                HoloLens+Unity 手势与运动控制
+                HoloLens+Unity 语音输入
               
             
           </h1>
@@ -256,8 +253,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-05-23T22:30:15+08:00" content="2017-05-23">
-              2017-05-23
+            <time itemprop="dateCreated" datetime="2017-05-24T23:07:30+08:00" content="2017-05-24">
+              2017-05-24
             </time>
           </span>
 
@@ -286,8 +283,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2017/05/23/HoloLens/HoloLens+Unity 手势与运动控制/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/23/HoloLens/HoloLens+Unity 手势与运动控制/" itemprop="commentsCount"></span>
+                <a href="/2017/05/24/HoloLens/HoloLens+Unity 语音输入/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/24/HoloLens/HoloLens+Unity 语音输入/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -310,8 +307,25 @@
       
 
       
-        <p>对于gaze物体的行为有两种方式实现，手势（gestures）和运动控制（motion controllers）。</p>
-<p>资料来源：<a href="https://developer.microsoft.com/en-us/windows/mixed-reality/gestures_and_motion_controllers_in_unity" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/mixed-reality/gestures_and_motion_controllers_in_unity</a></p>
+        <p>Unity允许三种方式的语音输入。使用KeywordRecognizer（PhraseRecognizers的两类型之一）可以监听一系列命令。使用GrammarRecognizer（PhraseRecognizer的另一种类型）可以监听SRGS文件中定义的特定语法。使用DictationRecognizer可以监听任何单词并且能展示给用户。<br>注意：dictation和phrase recognition同一时刻只能处理一种。</p>
+<p></p><h1>允许语音输入</h1><br>Edit &gt; Project Settings &gt; Player<br>Click on the “Windows Store” tab<br>In the “Publishing Settings &gt; Capabilities” section, check the Microphone capability<p></p>
+<p></p><h1>Phrase Recognition</h1><p></p>
+<p></p><h3>KeywordRecognizer</h3><br>Namespace: UnityEngine.Windows.Speech<br>Types: KeywordRecognizer, PhraseRecognizedEventArgs, SpeechError, SpeechSystemStatus<p></p>
+<p>using UnityEngine.Windows.Speech;<br>using System.Collections.Generic;<br>using System.Linq;</p>
+<p>KeywordRecognizer keywordRecognizer;<br>Dictionary&lt;string, System.Action&gt; keywords = new Dictionary&lt;string, System.Action&gt;();<br>在Start()中添加keywords<br>//Create keywords for keyword recognizer<br>keywords.Add(“activate”, () =&gt;<br>{<br>    // action to be performed when this keyword is spoken<br>});<br>keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());<br>keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;<br>private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)<br>{<br>    System.Action keywordAction;<br>    // if the keyword recognized is in our dictionary, call that Action.<br>    if (keywords.TryGetValue(args.text, out keywordAction))<br>    {<br>        keywordAction.Invoke();<br>    }<br>}<br>keywordRecognizer.Start();</p>
+<p></p><h3>GrammarRecognizer</h3><br>Namespace: UnityEngine.Windows.Speech<br>Types: GrammarRecognizer, PhraseRecognizedEventAtgs, SpeechError, SpeechSystemStatus<br>GrammerRecognizer利用SRGS文件识别，适用于有复杂的phrase，大量keywords的情况。需要自己创建SRGS XML文件。<p></p>
+<p><project_root>/Assets/StreamingAssets/SRGS/myGrammar.xml<br>private GrammarRecognizer grammarRecognizer;<br>grammarRecognizer = new GrammarRecognizer(Application.streamingDataPath + “/SRGS/myGrammar.xml”);<br>grammarRecognizer.OnPhraseRecognized += grammarRecognizer_OnPhraseRecognized;<br>private void Grammar_OnPhraseRecognized(PhraseRecognizedEventArgs args)<br>{<br>    SemanticMeaning[] meanings = args.semanticMeanings;<br>    // do something<br>}<br>grammarRecognizer.Start();</project_root></p>
+<p></p><h1>Dictation</h1><br>Namespace: UnityEngine.Windows.Speech<br>Types:DictationRecognizer, SpeechError, SeechSystemStatus<br>DictationRecognizer可以将用户的语音转变为文本。DictationRecognizer公开了听写功能，并支持注册和监听短语完成的事件。Start（）和Stop（）方法分别启用和禁用听写识别。使用识别器完成后，应使用Dispose（）方法来释放其使用的资源。如果垃圾收集之前没有释放，它将以额外的性能成本自动释放这些资源。<p></p>
+<p></p><h3>允许dictation</h3><br>Edit &gt; Project Settings &gt; Player<br>Click on the “Windows Store” tab<br>In the “Publishing Settings &gt; Capabilities” section, check the InternetClient capability<p></p>
+<p></p><h3>DictationRecognizer</h3><br>dictationRecognizer = new DictationRecognizer();<br>dictationRecognizer有四种事件<p></p>
+<p></p><h5>DictationResult</h5><br>事件在用户语音停止时触发，通常在句子结尾处触发此事件。完整识别的字符串在这里返回。<br>dictationRecognizer.DictationResult += DictationRecognizer_DictationResult;<br>private void DictationRecognizer_DictationResult(string text, ConfidenceLevel confidence)<br>{<br>    // do something<br>}<p></p>
+<p></p><h5>DictationHypothesis</h5><br>这个事件在用户正在说话时被持续触发。当识别器侦听时，它提供了迄今为止所听到的内容。<br>dictationRecognizer.DictationHypothesis += DictationRecognizer_DictationHypothesis;<br>private void DictationRecognizer_DictationHypothesis(string text)<br>{<br>    // do something<br>}<p></p>
+<p></p><h5>DictationComplete</h5><br>无论从Stop（）被调用，是否发生超时或其他错误，识别器都将停止此事件。<br>dictationRecognizer.DictationComplete += DictationRecognizer_DictationComplete;<br>private void DictationRecognizer_DictationComplete(DictationCompletionCause cause)<br>{<br>   // do something<br>}<p></p>
+<p></p><h5>DictationError</h5><br>事件在发生错误时触发。<br>dictationRecognizer.DictationError += DictationRecognizer_DictationError;<br>private void DictationRecognizer_DictationError(string error, int hresult)<br>{<br>    // do something<br>}<p></p>
+<p>开启<br>dictationRecognizer.Start();<br>关闭<br>dictationRecognizer.DictationResult -= DictationRecognizer_DictationResult;<br>dictationRecognizer.DictationComplete -= DictationRecognizer_DictationComplete ;<br>dictationRecognizer.DictationHypothesis -= DictationRecognizer_DictationHypothesis ;<br>dictationRecognizer.DictationError -= DictationRecognizer_DictationError ;<br>dictationRecognizer.Dispose();</p>
+<p>注意<br>Start（）和Stop（）方法分别启用和禁用听写识别。<br>使用识别器完成后，应使用Dispose（）方法来释放其使用的资源。<br>超时发生的一段时间后，可以在DictationComplete事件中检查这些超时。<br>需要注意的超时有两种：<br>如果识别器开始并且在前5秒钟内没有听到任何音频，它将超时。<br>如果识别器给出了一个结果，然后听到静音二十秒钟，它将超时。</p>
+<p></p><h1>同时使用Phrase Recognition和Dictation</h1><br>同一时间只能使用一个。需要将另一个关闭才能开启这一个。<br>PhraseRecognitionSystem.Shutdown();<br>PhraseRecognitionSystem.Restart();<p></p>
+<p>资料来源：<a href="https://developer.microsoft.com/en-us/windows/mixed-reality/voice_input_in_unity" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/mixed-reality/voice_input_in_unity</a></p>
 
       
     </div>
@@ -336,8 +350,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/23/HoloLens/HoloLens+Unity Gaze/" rel="next" title="HoloLens+Unity Gaze">
-                <i class="fa fa-chevron-left"></i> HoloLens+Unity Gaze
+              <a href="/2017/05/24/HoloLens/HoloLens+Unity 手势与运动控制/" rel="next" title="HoloLens+Unity 手势与运动控制">
+                <i class="fa fa-chevron-left"></i> HoloLens+Unity 手势与运动控制
               </a>
             
           </div>
@@ -368,8 +382,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/05/23/HoloLens/HoloLens+Unity 手势与运动控制/"
-           data-title="HoloLens+Unity 手势与运动控制" data-url="http://kangarootao.github.io/2017/05/23/HoloLens/HoloLens+Unity 手势与运动控制/">
+      <div class="ds-thread" data-thread-key="2017/05/24/HoloLens/HoloLens+Unity 语音输入/"
+           data-title="HoloLens+Unity 语音输入" data-url="http://kangarootao.github.io/2017/05/24/HoloLens/HoloLens+Unity 语音输入/">
       </div>
     
   </div>
@@ -405,7 +419,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-count">15</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

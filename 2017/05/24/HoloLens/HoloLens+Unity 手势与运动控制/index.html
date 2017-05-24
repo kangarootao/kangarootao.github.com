@@ -84,19 +84,19 @@
 
 
 
-<meta name="description" content="Gaze（凝视）是Hololens中用户用于确定全息目标的基本方法，用户视野中会出现一个随视角移动的光标用于选择物体。光标的产生是由用户的头向HoloLens发出射线，根据射线的碰撞位置显示。
-在unity中，用户头的位置和方向和主相机一致，即UnityEngine.Camera.main.tranform.position与 UnityEngine.Camera.main.tranform.fo">
+<meta name="description" content="对于gaze物体的行为有两种方式实现，手势（gestures）和运动控制器（motion controllers）。Unity可以提供如位置，方向，速度等的低等级信息，也可提供高等级的手势识别事件，如tap，hold等。
+手势：高等级空间输入Namespace: UnityEngine.VR.WSA.InputTypes: GestureRecognizer, GestureSettings, I">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HoloLens+Unity Gaze">
-<meta property="og:url" content="http://kangarootao.github.io/2017/05/23/HoloLens/HoloLens+Unity Gaze/index.html">
+<meta property="og:title" content="HoloLens+Unity 手势与运动控制">
+<meta property="og:url" content="http://kangarootao.github.io/2017/05/24/HoloLens/HoloLens+Unity 手势与运动控制/index.html">
 <meta property="og:site_name" content="Kangarootao的主页">
-<meta property="og:description" content="Gaze（凝视）是Hololens中用户用于确定全息目标的基本方法，用户视野中会出现一个随视角移动的光标用于选择物体。光标的产生是由用户的头向HoloLens发出射线，根据射线的碰撞位置显示。
-在unity中，用户头的位置和方向和主相机一致，即UnityEngine.Camera.main.tranform.position与 UnityEngine.Camera.main.tranform.fo">
-<meta property="og:updated_time" content="2017-05-23T14:22:15.000Z">
+<meta property="og:description" content="对于gaze物体的行为有两种方式实现，手势（gestures）和运动控制器（motion controllers）。Unity可以提供如位置，方向，速度等的低等级信息，也可提供高等级的手势识别事件，如tap，hold等。
+手势：高等级空间输入Namespace: UnityEngine.VR.WSA.InputTypes: GestureRecognizer, GestureSettings, I">
+<meta property="og:updated_time" content="2017-05-24T16:06:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HoloLens+Unity Gaze">
-<meta name="twitter:description" content="Gaze（凝视）是Hololens中用户用于确定全息目标的基本方法，用户视野中会出现一个随视角移动的光标用于选择物体。光标的产生是由用户的头向HoloLens发出射线，根据射线的碰撞位置显示。
-在unity中，用户头的位置和方向和主相机一致，即UnityEngine.Camera.main.tranform.position与 UnityEngine.Camera.main.tranform.fo">
+<meta name="twitter:title" content="HoloLens+Unity 手势与运动控制">
+<meta name="twitter:description" content="对于gaze物体的行为有两种方式实现，手势（gestures）和运动控制器（motion controllers）。Unity可以提供如位置，方向，速度等的低等级信息，也可提供高等级的手势识别事件，如tap，hold等。
+手势：高等级空间输入Namespace: UnityEngine.VR.WSA.InputTypes: GestureRecognizer, GestureSettings, I">
 
 
 
@@ -114,7 +114,7 @@
   };
 </script>
 
-  <title> HoloLens+Unity Gaze | Kangarootao的主页 </title>
+  <title> HoloLens+Unity 手势与运动控制 | Kangarootao的主页 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -244,7 +244,7 @@
             
             
               
-                HoloLens+Unity Gaze
+                HoloLens+Unity 手势与运动控制
               
             
           </h1>
@@ -256,8 +256,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-05-23T22:07:07+08:00" content="2017-05-23">
-              2017-05-23
+            <time itemprop="dateCreated" datetime="2017-05-24T22:03:15+08:00" content="2017-05-24">
+              2017-05-24
             </time>
           </span>
 
@@ -286,8 +286,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2017/05/23/HoloLens/HoloLens+Unity Gaze/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/23/HoloLens/HoloLens+Unity Gaze/" itemprop="commentsCount"></span>
+                <a href="/2017/05/24/HoloLens/HoloLens+Unity 手势与运动控制/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/24/HoloLens/HoloLens+Unity 手势与运动控制/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -310,10 +310,30 @@
       
 
       
-        <p>Gaze（凝视）是Hololens中用户用于确定全息目标的基本方法，用户视野中会出现一个随视角移动的光标用于选择物体。光标的产生是由用户的头向HoloLens发出射线，根据射线的碰撞位置显示。</p>
-<p>在unity中，用户头的位置和方向和主相机一致，即UnityEngine.Camera.main.tranform.position与 UnityEngine.Camera.main.tranform.forward。随后即可通过物理射线Physics.RayCast导致的射线碰撞RaycastHit来确定碰撞到的物体是哪一个。<br>void Update()<br>{<br>       RaycastHit hitInfo;<br>       if (Physics.Raycast(<br>               Camera.main.transform.position,<br>               Camera.main.transform.forward,<br>               out hitInfo,<br>               20.0f,<br>               Physics.DefaultRaycastLayers))<br>       {<br>           // If the Raycast has succeeded and hit a hologram<br>           // hitInfo’s point represents the position being gazed at<br>           // hitInfo’s collider GameObject represents the hologram being gazed at<br>       }<br>}</p>
-<p>关于gaze的可视化可以在GitHub的HoloToolkit-Unity仓库的GazeManager.cs中找到。Cursor.prefab和CursorWithFeedback.prefab展示了如何进行gaze光标的可视化。</p>
-<p>资料来源：<a href="https://developer.microsoft.com/en-us/windows/mixed-reality/gaze_in_unity" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/mixed-reality/gaze_in_unity</a></p>
+        <p>对于gaze物体的行为有两种方式实现，手势（gestures）和运动控制器（motion controllers）。Unity可以提供如位置，方向，速度等的低等级信息，也可提供高等级的手势识别事件，如tap，hold等。</p>
+<p></p><h1>手势：高等级空间输入</h1><br>Namespace: UnityEngine.VR.WSA.Input<br>Types: GestureRecognizer, GestureSettings, InteractionSourceKind<p></p>
+<p>这些高等级手势都由空间输入信息生成的。每个手势事件都会提供一些具体信息。</p>
+<p></p><h3>创建Gesture Recognizer</h3><br>GestureRecognizer recognizer = new GestureRecognizer();<p></p>
+<p></p><h3>确定监听哪个gesture</h3><br>recognizer.SetRecognizableGestures(GestureSettings.Tap | GestureSettings.Hold);<p></p>
+<p></p><h3>为gesture注册监听事件</h3><br>recognizer.TappedEvent += MyTapEventHandler;<br>recognizer.HoldEvent += MyHoldEventHandler;<br>注意：Navigation和Manipulation手势在GestureRecognizer实例中是互斥的。<p></p>
+<p></p><h3>开始捕捉gesture</h3><br>recognizer.StartCapturingGestures();<br>在调用前GestureRecognizer不会监视输入。如果在处理StopCapturingGestures（）的框架之前执行了输入，则可能会在StopCapturingGestures（）被调用后生成手势事件。因此，如果要根据玩家目前注视的对象来启动和停止手势监控，这是可靠的。<p></p>
+<p></p><h3>停止捕捉gesture</h3><br>recognizer.StopCapturingGestures();<p></p>
+<p></p><h3>移除gesture recognizer</h3><br>void OnDestroy()<br>{<br>    recognizer.TappedEvent -= MyTapEventHandler;<br>    recognizer.HoldEvent -= MyHoldEventHandler;<br>}<p></p>
+<p></p><h1>交互：低等级空间输入</h1><br>Namespace: UnityEngine.VR.WSA.Input<br>Types: InteractionManager, InteractionSourceState, InteractionSource, InteractionSourceProperties, InteractionSourceKind, InteractionSourceLocation<p></p>
+<p></p><h3>开始处理interaction事件</h3><br>InteractionManager.SourcePressed += InteractionManager_SourcePressed;<p></p>
+<p>void InteractionManager_SourcePressed(InteractionSourceState state)<br>{<br>    // state has information about:<br>       // targeting head ray at the time when the event was triggered<br>       // whether the source is pressed or not<br>       // properties like position, velocity, source loss risk<br>       // source id (which hand id for example) and source kind like hand, voice, controller or other<br>}</p>
+<p></p><h3>停止处理事件</h3><br>InteractionManager.SourcePressed -= InteractionManager_SourcePressed;<p></p>
+<p></p><h3>Input Source Change Events</h3><br>detected (becomes active)<br>lost (becomes inactive)<br>updates (moves or otherwise changes some state)<br>is pressed (tap, button press, or select uttered)<br>is released (end of a tap, button released, or end of select uttered)<p></p>
+<p></p><h3>Input Source State</h3><br>每个事件都会输出InteractionSourceState，代表了某个时间点的数据。数据包括<br>发生了哪种press (Select/Menu/Grasp/Touchpad/Thumbstick)<br>运动控制器的详细信息, such as XY coordinates and touched state from touchpad/thumbstick<br>某时刻的位置，方向，速度。<br>头朝向的射线，用来确定时间发生时用户gaze的物体，因为用户可能在前一帧做过手势。<br>来源的射线，如果这是个有朝向的运动控制器。<br>InteractionSourceKind来判断这是个手还是运动控制器<p></p>
+<p></p><h3>例子</h3><br>using UnityEngine.VR.WSA.Input;<p></p>
+<p>void Start ()<br>{<br>    InteractionManager.SourceDetected += InteractionManager_SourceDetected;<br>    InteractionManager.SourceUpdated += InteractionManager_SourceUpdated;<br>    InteractionManager.SourceLost += InteractionManager_SourceLost;<br>    InteractionManager.SourcePressed += InteractionManager_SourcePressed;<br>    InteractionManager.SourceReleased += InteractionManager_SourceReleased;<br>}</p>
+<p>void OnDestroy()<br>{<br>    InteractionManager.SourceDetected -= InteractionManager_SourceDetected;<br>    InteractionManager.SourceUpdated -= InteractionManager_SourceUpdated;<br>    InteractionManager.SourceLost -= InteractionManager_SourceLost;<br>    InteractionManager.SourcePressed -= InteractionManager_SourcePressed;<br>    InteractionManager.SourceReleased -= InteractionManager_SourceReleased;<br>}</p>
+<p>void InteractionManager_SourceDetected(InteractionSourceState state)<br>{<br>    // Source was detected<br>    // state has the current state of the source including id, position, kind, etc.<br>}</p>
+<p>void InteractionManager_SourceLost(InteractionSourceState state)<br>{<br>    // Source was lost. This will be after a SourceDetected event and no other events for this source id will occur until it is Detected again<br>    // state has the current state of the source including id, position, kind, etc.<br>}</p>
+<p>void InteractionManager_SourceUpdated(InteractionSourceState state)<br>{<br>    // Source was updated. The source would have been detected before this point<br>    // state has the current state of the source including id, position, kind, etc.<br>}</p>
+<p>void InteractionManager_SourcePressed(InteractionSourceState state)<br>{<br>    // Source was pressed. This will be after the source was detected and before it is released or lost<br>    // state has the current state of the source including id, position, kind, etc.<br>}</p>
+<p>void InteractionManager_SourceReleased(InteractionSourceState state)<br>{<br>    // Source was released. The source would have been detected and pressed before this point. This event will not fire if the source is lost<br>    // state has the current state of the source including id, position, kind, etc.<br>}</p>
+<p>资料来源：<a href="https://developer.microsoft.com/en-us/windows/mixed-reality/gestures_and_motion_controllers_in_unity" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/mixed-reality/gestures_and_motion_controllers_in_unity</a></p>
 
       
     </div>
@@ -338,16 +358,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/23/HoloLens/HoloLens+Unity 坐标系统/" rel="next" title="HoloLens+Unity 坐标系统">
-                <i class="fa fa-chevron-left"></i> HoloLens+Unity 坐标系统
+              <a href="/2017/05/23/HoloLens/HoloLens+Unity Gaze/" rel="next" title="HoloLens+Unity Gaze">
+                <i class="fa fa-chevron-left"></i> HoloLens+Unity Gaze
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/05/24/HoloLens/HoloLens+Unity 手势与运动控制/" rel="prev" title="HoloLens+Unity 手势与运动控制">
-                HoloLens+Unity 手势与运动控制 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/05/24/HoloLens/HoloLens+Unity 语音输入/" rel="prev" title="HoloLens+Unity 语音输入">
+                HoloLens+Unity 语音输入 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -374,8 +394,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/05/23/HoloLens/HoloLens+Unity Gaze/"
-           data-title="HoloLens+Unity Gaze" data-url="http://kangarootao.github.io/2017/05/23/HoloLens/HoloLens+Unity Gaze/">
+      <div class="ds-thread" data-thread-key="2017/05/24/HoloLens/HoloLens+Unity 手势与运动控制/"
+           data-title="HoloLens+Unity 手势与运动控制" data-url="http://kangarootao.github.io/2017/05/24/HoloLens/HoloLens+Unity 手势与运动控制/">
       </div>
     
   </div>
