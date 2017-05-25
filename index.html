@@ -240,6 +240,413 @@
             
               
                 
+                <a class="post-title-link" href="/2017/05/25/HoloLens/HoloLens+Unity 空间映射/" itemprop="url">
+                  HoloLens+Unity 空间映射
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-25T16:11:09+08:00" content="2017-05-25">
+              2017-05-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/HoloLens/" itemprop="url" rel="index">
+                    <span itemprop="name">HoloLens</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/25/HoloLens/HoloLens+Unity 空间映射/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/25/HoloLens/HoloLens+Unity 空间映射/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Namespace: UnityEngine.VR.WSA.SurfaceObserver</p>
+<p>本主题介绍如何在Unity项目中使用空间映射（Spatial mapping），检索HoloLens世界中的各个表面的三角形网格，用于放置，遮挡，房间分析等。</p>
+<p></p><h1>设置SpatialPerception功能</h1><br>为了使应用程序能够使用空间映射数据，必须启用SpatialPerception功能。<br>Edit &gt; Project Settings &gt; Player<br>点击Windows Store标签<br>打开Publishing Settings，在Capabilities list里勾起SpatialPerception<p></p>
+<p>注意：如果已经将Unity项目导出到Visual Studio解决方案，则需要重新导出，或者在Visual Studio中的AppxManifest中手动设置此功能。</p>
+<p>空间映射还需要MaxVersionTested至少为10.0.10586.0。<br>在Visual Studio中，在Solution Explorer中右键Package.appxmanifest并选择View Code<br>找到TargetDeviceFamily行，将MaxVersionTested改为10.0.10586.0。</p>
+<p></p><h1>开始使用Unity内置空间映射组件</h1><br>Unity提供了两种易于处理空间映射的组件，Spatial Mapping Renderer和Spatial Mapping Collider。<p></p>
+<p></p><h3>Spatial Mapping Renderer</h3><br>Spatial Mapping Renderer允许空间映射网格（Spatial Mapping Renderer）的可视化（Visualization）<p></p>
+<p></p><h3>Spatial Mapping Collider</h3><br>Spatial Mapping Collider通过空间映射网格，可使全息内容或角色产生交互，如物理上的接触等。<p></p>
+<p></p><h3>使用内置空间映射组件</h3><br>如果您想要同时进行物理表面的可视化和交互，您可以将两个组件添加到应用程序中。<br>1.在画面中选择一个需要检测空间表面网格（spatial surface meshes）的GameObject。<br>2.Add Component &gt; AR &gt; Spatial Mapping Collider or Spatial Mapping Renderer.<p></p>
+<p></p><h3>更加深入</h3><br>可以通过低等级空间映射脚本API来实现网格处理。<br>可以使用HoloToolkit中的SpatialUnderstanding库来实现高等级网格分析。<p></p>
+<p></p><h1>使用低等级Unity空间映射API</h1><br>如果您需要比从Spatial Mapping Renderer和Spatial Mapping Collider组件里得到更多的控件，则可以使用低级空间映射脚本API。<br>Namespace: Unity.Engine.VR.WSA<br>Types: SurfaceObserver, SurfaceChange, SurfaceData, SurfaceId<p></p>
+<p></p><h3>开启SurfaceObserver</h3><br>SurfaceObserver surfaceObserver;<br> void Start () {<br>     surfaceObserver = new SurfaceObserver();<br> }<br> 指定的每个SurfaceObserver对象将通过调用SetVolumeAsSphere，SetVolumeAsAxisAlignedBox，SetVolumeAsOrientedBox或SetVolumeAsFrustum来提供数据的空间区域。您可以通过简单地再次调用其中一种方法来重新定义未来的空间区域。<br> void Start () {<br>    …<br>     surfaceObserver.SetVolumeAsAxisAlignedBox(Vector3.zero, new Vector3(3, 3, 3));<br>}<br>当调用SurfaceObserver.Update（）时，必须为具有新信息的SurfaceObserver的空间区域中的每个空间表面提供处理程序。<br>private void OnSurfaceChanged(SurfaceId surfaceId, SurfaceChange changeType, Bounds bounds, System.DateTime updateTime)<br> {<br>    //see Handling Surface Changes<br> }<br> <h3>处理Surface Changes</h3><br>System.Collections.Generic.Dictionary&lt;SurfaceId, GameObject&gt; spatialMeshObjects = new System.Collections.Generic.Dictionary&lt;SurfaceId, GameObject&gt;();<p></p>
+<p>   private void OnSurfaceChanged(SurfaceId surfaceId, SurfaceChange changeType, Bounds bounds, System.DateTime updateTime)<br>   {<br>       switch (changeType)<br>       {<br>           case SurfaceChange.Added:<br>           case SurfaceChange.Updated:<br>               if (!spatialMeshObjects.ContainsKey(surfaceId))<br>               {<br>                   spatialMeshObjects[surfaceId] = new GameObject(“spatial-mapping-“ + surfaceId);<br>                   spatialMeshObjects[surfaceId].transform.parent = this.transform;<br>                   spatialMeshObjects[surfaceId].AddComponent<meshrenderer>();<br>               }<br>               GameObject target = spatialMeshObjects[surfaceId];<br>               SurfaceData sd = new SurfaceData(<br>                   //the surface id returned from the system<br>                   surfaceId,<br>                   //the mesh filter that is populated with the spatial mapping data for this mesh<br>                   target.GetComponent<meshfilter>() ?? target.AddComponent<meshfilter>(),<br>                   //the world anchor used to position the spatial mapping mesh in the world<br>                   target.GetComponent<worldanchor>() ?? target.AddComponent<worldanchor>(),<br>                   //the mesh collider that is populated with collider data for this mesh, if true is passed to bakeMeshes below<br>                   target.GetComponent<meshcollider>() ?? target.AddComponent<meshcollider>(),<br>                   //triangles per cubic meter requested for this mesh<br>                   1000,<br>                   //bakeMeshes - if true, the mesh collider is populated, if false, the mesh collider is empty.<br>                   true<br>                   );<br>               SurfaceObserver.RequestMeshAsync(sd, OnDataReady);<br>               break;<br>           case SurfaceChange.Removed:<br>               var obj = spatialMeshObjects[surfaceId];<br>               spatialMeshObjects.Remove(surfaceId);<br>               if (obj != null)<br>               {<br>                   GameObject.Destroy(obj);<br>               }<br>               break;<br>           default:<br>               break;<br>       }<br>   }<br>示例的Added &amp; Updated中，我们从字典中添加或获取表示此网格的GameObject，使用必要的组件创建一个SurfaceData结构，然后调用RequestMeshDataAsync以使用网格数据和场景中的位置填充GameObject。<br>在删除的情况下，我们从字典中删除表示此网格的GameObject并将其销毁。</meshcollider></meshcollider></worldanchor></worldanchor></meshfilter></meshfilter></meshrenderer></p>
+<p></p><h3>处理Data Ready</h3><br>OnDataReady处理程序接收一个SurfaceData对象。 WorldAnchor，MeshFilter和MeshCollider（可选）对象包含反映相关空间表面的最新状态。通过访问MeshFilter对象的Mesh成员，可以执行网格数据的分析或处理。使用最新的网格渲染空间表面，或将其用于物理碰撞和射线。重要的是确认SurfaceData的内容不为空。<p></p>
+<p></p><h3>在update中开始处理</h3><br>void Start () {<br>    …<br>     StartCoroutine(UpdateLoop());<br>}<br>IEnumerator UpdateLoop()<br>  {<br>      var wait = new WaitForSeconds(2.5f);<br>      while(true)<br>      {<br>          surfaceObserver.Update(OnSurfaceChanged);<br>          yield return wait;<br>      }<br>  }<p></p>
+<p></p><h1>高等级网格分析：SpatialUnderstanding</h1><br>在HoloToolkit中有许多基于全息Unity API开发的实用程序代码。<p></p>
+<p></p><h3>Spatial Understanding</h3><br>当在物理世界中放置全息图时，通常需要超越空间映射的网格和表面。当在程序上进行安置时，需要更高水平的环境理解。这通常需要做出关于什么是地板，天花板和墙壁的决定。此外，还能够针对一组放置约束进行优化，以确定全息对象最理想的物理位置。<br>HoloToolkit.SpatialUnderstanding库封装了空间理解技术，允许快速找到墙壁上的空白空间，将天花板上放置对象，识别出放置在角色上的位置，以及无数的其他空间理解查询。<br>所有的源代码都包含在HoloToolkit中，可以根据自己的需要进行自定义，并与社区分享您的改进。 C ++解算器的代码已被包装到UWP DLL中，并暴露给Unity，并且包含在HoloToolkit中的prefab中。<p></p>
+<p></p><h3>理解模块</h3><br>模块暴露了三个主要接口：1.用于简单表面和空间查询的拓扑（topology）；2.对象检测的形状；3.用于基于约束的对象集放置的对象放置求解器（object placement solver）。这些中的每一个都会在接下来说明。除了三个主要模块接口之外，还可以使用射线投射（Ray casting）界面来检索标记的表面类型，并且可以复制自定义的水密（watertight）播放空间网格，<p></p>
+<p></p><h3>射线投射（Ray casting）</h3><br>房间扫描完成后，内部会产生标签，如地板，天花板和墙壁等。 PlayspaceRaycast功能接收光线，如果光线与已知表面相撞则返回RaycastResult形式的显示关于该表面的信息。<br>struct RaycastResult<br>{<br>    enum SurfaceTypes<br>    {<br>        Invalid,    // No intersection<br>        Other,<br>        Floor,<br>        FloorLike,  // Not part of the floor topology,<br>                    //  but close to the floor and looks like the floor<br>        Platform,   // Horizontal platform between the ground and<br>                    //  the ceiling<br>        Ceiling,<br>        WallExternal,<br>        WallLike,   // Not part of the external wall surface,<br>                    //  but vertical surface that looks like a<br>                    //  wall structure<br>    };<br>    SurfaceTypes SurfaceType;<br>    float SurfaceArea;  // Zero if unknown<br>                        //  (i.e. if not part of the topology analysis)<br>    DirectX::XMFLOAT3 IntersectPoint;<br>    DirectX::XMFLOAT3 IntersectNormal;<br>};<br>在内部，raycast是根据播放空间中算好的8cm立方体素（voxel）计算出的。每个体素包含一组具有处理拓扑数据的表面元素（又称Surfels，surface element的缩写）。相交的体素单元中的surfels会被做对比，并用于查找拓扑信息的最佳匹配。该拓扑数据包含以“SurfaceTypes”枚举形式返回的标签以及相交表面的表面积。<br>在Unity示例中，光标（cursor）每帧投射一个光线。首先，Unity的collider。第二，理解模块的世界代表（world representation）。最后再次是UI元素。在这个应用程序中，UI获得最高优先级，接下来是理解结果，最后是Unity的collider。 SurfaceType在光标旁边报告为文本。<p></p>
+<p></p><h3>拓扑查询（Topology Queries）</h3><br>在DLL中，拓扑管理器（manager）用于处理环境的标签。如上所述，大部分数据存储在体素体内包含的surfels中。此外，PlaySpaceInfos结构用于存储有关播放空间的信息，包括世界对齐（world alignment），楼层和天花板高度。启发式算法用于确定地板，天花板和墙壁。例如，表面积大于1平方米的最大和最低的水平面被认为是地板。请注意，扫描过程中的相机路径也是这么做的。<br>查询的一部分子集通过拓扑管理器暴露了出来。<br>QueryTopology_FindPositionsOnWalls<br>QueryTopology_FindLargePositionsOnWalls<br>QueryTopology_FindLargestWall<br>QueryTopology_FindPositionsOnFloor<br>QueryTopology_FindLargestPositionsOnFloor<br>QueryTopology_FindPositionsSittable<br>每个查询都有一组特定查询类型的参数。在以下示例中，用户指定所需体积的最小高度和宽度，高于地板的最小位置高度以及空间前的最小间隙量（clearnace）。所有测量均以米为单位。<br>EXTERN_C __declspec(dllexport) int QueryTopology_FindPositionsOnWalls(<br>    <em>In</em> float minHeightOfWallSpace,<br>    <em>In</em> float minWidthOfWallSpace,<br>    <em>In</em> float minHeightAboveFloor,<br>    <em>In</em> float minFacingClearance,<br>    <em>In</em> int locationCount,<br>    <em>Inout</em> Dll_Interface::TopologyResult* locationData)<br>这些查询中的每一个都使用预先分配的TopologyResult结构数组。locationCount参数指定数组中传递的长度。返回值报告返回位置的数量。此数字永远不会大于locationCount参数中传递的数字。<br>“拓扑结构”包含返回的体积的中心位置，面向的方向（normal）和找到的空间的尺寸。<br>struct TopologyResult<br>{<br>    DirectX::XMFLOAT3 position;<br>    DirectX::XMFLOAT3 normal;<br>    float width;<br>    float length;<br>};<br>请注意，在Unity示例中，每个查询都链接到虚拟UI面板中的按钮。样本为每个查询的参数设置合理的值。有关更多示例，请参阅示例代码中的SpaceVisualizer.cs。<p></p>
+<p></p><h3>形状查询（Shape Queries）</h3><br>在dll的内部，形状分析器（ShapeAnalyzer_W）使用拓扑分析器来匹配用户定义的形状。 Unity样本定义一组形状，并通过应用内查询菜单在形状选项卡中公开结果。目的是用户可以根据自己的应用需要定义自己的对象形状查询并利用它们<br>注意，形状分析仅在水平表面上工作。例如，沙发由底座表面和沙发背部的平顶组成。形状查询查找特定尺寸，高度和宽高比范围的两个表面，两个表面对齐并连接。使用API​​术语的话，沙发座和后顶是形状组件，对齐要求是形状组件约束。<br>Unity样本（ShapeDefinition.cs）中为“sittable”对象定义的示例查询如下。<br>shapeComponents = new List<shapecomponent>()<br>{<br>    new ShapeComponent(<br>        new List<shapecomponentconstraint>()<br>        {<br>            ShapeComponentConstraint.Create_SurfaceHeight_Between(0.2f, 0.6f),<br>            ShapeComponentConstraint.Create_SurfaceCount_Min(1),<br>            ShapeComponentConstraint.Create_SurfaceArea_Min(0.035f),<br>        }<br>    ),<br>};<br>AddShape(“Sittable”, shapeComponents);<br>每个形状查询由一组形状组件定义，每个组件具有一组组件约束和一组形状约束，形状约束列出了组件之间的依赖关系。该示例在单个组件定义中包含三个约束，并且组件之间没有形状约束（因为只有一个组件）。<br>相比之下，沙发形状具有两个形状分量和四个形状约束。请注意，组件由用户组件列表中的索引标识（本示例中为0和1）。<br>shapeConstraints = new List<shapeconstraint>()<br>{<br>    ShapeConstraint.Create_RectanglesSameLength(0, 1, 0.6f),<br>    ShapeConstraint.Create_RectanglesParallel(0, 1),<br>    ShapeConstraint.Create_RectanglesAligned(0, 1, 0.3f),<br>    ShapeConstraint.Create_AtBackOf(1, 0),<br>};<br>Unity模块中提供了Wrapper功能，可以轻松创建自定义形状定义。组件和形状约束的完整列表可以在SpatialUnderstandingDll.cs中的ShapeComponentConstraint和ShapeConstraint结构中找到。<p></p>
+<p></p><h3>物体布局求解器(Object Placement Solver)</h3><br>物体布局求解器可以用于识别物理室内放置物体的理想位置。求解器将找到给定对象规则和约束物体的最佳拟合位置。此外，直到使用Solver_RemoveObject或Solver_RemoveAllObjects调用删除对象，对象查询持续存在，并且允许受限的多对象放置。对象放置查询由三部分组成：具有参数的布局（placement）类型，规则列表和约束列表。要运行查询，请使用以下API。<br>public static int Solver_PlaceObject(<br>            [In] string objectName,<br>            [In] IntPtr placementDefinition,        // ObjectPlacementDefinition<br>            [In] int placementRuleCount,<br>            [In] IntPtr placementRules,             // ObjectPlacementRule<br>            [In] int constraintCount,<br>            [In] IntPtr placementConstraints,       // ObjectPlacementConstraint<br>            [Out] IntPtr placementResult)<br>此函数使用对象名称，布局定义以及规则和约束列表。 C＃包装器提供构造辅助函数（helper function），使规则和约束构造变得容易。布局定义包含的查询类型如下。<br>public enum PlacementType<br>            {<br>                Place_OnFloor,<br>                Place_OnWall,<br>                Place_OnCeiling,<br>                Place_OnShape,<br>                Place_OnEdge,<br>                Place_OnFloorAndCeiling,<br>                Place_RandomInAir,<br>                Place_InMidAir,<br>                Place_UnderFurnitureEdge,<br>            };<br>每个布局类型都有一组对该类型唯一的参数。ObjectPlacementDefinition结构包含一组用于创建这些定义的静态辅助函数。例如，要找到放置对象的地方，可以使用以下功能。 public static ObjectPlacementDefinition Create_OnFloor（Vector3 halfDims）除了布局类型之外，还可以提供一组规则和约束。规则不能违反。然后根据该组约束优化满足类型和规则的可能的放置位置，以便选择最佳的放置位置。每个规则和约束都可以通过提供的静态创建功能创建。下面提供了一个示例规则和约束构造函数。<br>public static ObjectPlacementRule Create_AwayFromPosition(<br>    Vector3 position, float minDistance)<br>public static ObjectPlacementConstraint Create_NearPoint(<br>    Vector3 position, float minDistance = 0.0f, float maxDistance = 0.0f)<br>以下对象放置查询正在寻找一个放置在表面边缘的半米立方体的位置，远离其他先前放置的对象并靠近房间中心的位置。<br>List<objectplacementrule> rules =<br>    new List<objectplacementrule>() {<br>        ObjectPlacementRule.Create_AwayFromOtherObjects(1.0f),<br>    };<p></p>
+<p>List<objectplacementconstraint> constraints =<br>    new List<objectplacementconstraint> {<br>        ObjectPlacementConstraint.Create_NearCenter(),<br>    };</objectplacementconstraint></objectplacementconstraint></p>
+<p>Solver_PlaceObject(<br>    “MyCustomObject”,<br>    new ObjectPlacementDefinition.Create_OnEdge(<br>        new Vector3(0.25f, 0.25f, 0.25f),<br>        new Vector3(0.25f, 0.25f, 0.25f)),<br>    rules.Count,<br>    UnderstandingDLL.PinObject(rules.ToArray()),<br>    constraints.Count,<br>    UnderstandingDLL.PinObject(constraints.ToArray()),<br>    UnderstandingDLL.GetStaticObjectPlacementResultPtr());<br>如果成功，则返回包含放置位置，尺寸和方向的ObjectPlacementResult结构。此外，该位置会添加到dll的放置对象的内部列表中。随后的展示位置查询将考虑此对象。Unity样本中的LevelSolver.cs文件包含更多示例查询。<br>在解决应用场景所需的多个对象的放置位置时，首先要解决不可或缺的大对象，以便最大限度地发现可以找到空间的概率。安置顺序很重要。如果无法找到对象展示位置，请尝试较少约束的配置。拥有一套后备配置能够支持更多的房间配置，这至关重要。</p>
+<p></p><h3>房间扫描过程</h3><br>HoloLens提供的空间映射解决方案被设计为足够通用，可以满足整个问题空间的需求。空间理解模块是为了支持两个特定播放需求而构建的。其解决方案围绕具体过程和一系列假设进行构建，总结如下。<br>Fixed size playspace – The user specifies the maximum playspace size in the init call.<br>固定大小播放空间 - 用户指定init调用中的最大播放空间大小。<br>One-time scan process – The process requires a discrete scanning phase where the user walks around, defining the playspace. Query functions will not function until after the scan has been finalized.<br>一次性扫描过程 - 该过程需要一个离散的扫描阶段，用户可以在其中走动，定义播放空间。扫描完成后，查询功能才会起作用。<p></p>
+<p>用户驱动的播放空间painting - 在扫描阶段，用户移动并观察播放速度，有效绘制应包含的区域。生成的网格对于在此阶段提供用户反馈很重要。室内的家庭或办公室设置 - 查询函数围绕平面和墙壁设计成直角。这是一个软限制。然而，在扫描阶段，完成主轴分析以优化沿主轴和短轴的网格细分。包含的SpatialUnderstanding.cs文件管理扫描阶段过程。它调用以下函数。<br>SpatialUnderstanding_Init – Called once at the start.<br>在开始时调用<br>GeneratePlayspace_InitScan – Indicates that the scan phase should begin.<br>表示扫描阶段应该开始。<br>GeneratePlayspace_UpdateScan_DynamicScan – Called each frame to update the scanning process. The camera position and orientation is passed in and is used for the playspace painting process, described above.<br>调用每个帧来更新扫描过程。相机的位置和方向被传入并用于上述的播放空间的绘画过程。<br>GeneratePlayspace_RequestFinish – Called to finalize the playspace. This will use the areas “painted” during the scan phase to define and lock the playspace. The application can query statistics during the scanning phase as well as query the custom mesh for providing user feedback.<br>被要求完成播放空间。这将在扫描阶段使用painting区域来定义和锁定播放空间。应用程序可以在扫描阶段查询统计信息，并查询自定义网格以提供用户反馈。<br>Import_UnderstandingMesh – During scanning, the “SpatialUnderstandingCustomMesh” behavior provided by the module and placed on the understanding prefab will periodically query the custom mesh generated by the process. In addition, this is done once more after scanning has been finalized.<br>在扫描期间，模块提供的放置在理解prefab的SpatialUnderstandingCustomMesh行为将定期查询由进程生成的自定义网格。此外，扫描完成后再进行一次。</p>
+<p>扫描流由SpatialUnderstanding行为驱动，每个帧都调用InitScan，然后UpdateScan。当统计信息查询报告合理覆盖时，允许用户进行airtap，以调用RequestFinish来指示扫描阶段的结束。UpdateScan继续被调用，直到它的返回值表示dll已经完成处理。</p>
+<p></p><h3>理解网格（Understanding Mesh）</h3><br>理解dll将播放空间内部存储为8厘米大小的体素立方体的网格。在扫描的初始部分，完成主要成分分析以确定房间的轴线。在内部，它存储与这些轴对齐的体素空间。通过从体素体积中提取等值面持续生成网格。<p></p>
+<p>资料来源：<a href="https://developer.microsoft.com/en-us/windows/mixed-reality/spatial_mapping_in_unity" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/mixed-reality/spatial_mapping_in_unity</a></p>
+</objectplacementrule></objectplacementrule></shapeconstraint></shapecomponentconstraint></shapecomponent>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/25/HoloLens/HoloLens+Unity 空间声/" itemprop="url">
+                  HoloLens+Unity 空间声
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-25T15:16:13+08:00" content="2017-05-25">
+              2017-05-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/HoloLens/" itemprop="url" rel="index">
+                    <span itemprop="name">HoloLens</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/25/HoloLens/HoloLens+Unity 空间声/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/25/HoloLens/HoloLens+Unity 空间声/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本主题介绍如何在Unity项目中使用空间声（Spatial Sound）。它涵盖所需的插件文件以及启用立体声的Unity组件和属性。</p>
+<p></p><h1>允许使用空间声</h1><br>使用声场定位插件启用Unity中的空间声。启用Microsoft HRTF扩展：<br>Edit &gt; Audio &gt; Spatializer<br>由于Microsoft Spatial Sound目前仅支持48000，您还应该将系统采样率设置为48000，以防止在系统输出设备未设置为48000的罕见情况下出现HRTF故障。<p></p>
+<p>注意：虽然Windows 10 SDK可能用于Windows 10之前的Windows版本上构建的HoloLens应用程序，但如果不使用Windows 10，编辑器或设备上就不能获取空间声。</p>
+<p></p><h1>在Unity中使用空间声</h1><br>通过调整音频源组件上的三个设置，就可在Unity项目中使用空间声。<br>在Hierarchy面板, 给game object添加Audio Source。<br>在Inspector面板, Audio Source组件下<br>勾起Spatialize选项。<br>设置Spatial Blend为3D（数值1）。<br>为了最好的效果, 扩展3D Sound Settings并且将Volume Rolloff设为Custom Rolloff。<p></p>
+<p>这样声音就能真实存在于项目的环境中了！<br>强烈建议能够熟悉Spatial Sound设计指南。这些指南有助于将音频无缝集成到项目中，并进一步让用户感受这种体验。</p>
+<p></p><h1>设置空间声</h1><br>Microsoft Spatial Sound插件允许调整每个音频源的上的参数，以允许对音频模拟的附加控制。<p></p>
+<p></p><h3>最小增益（Minimum Gain）</h3><br>任意距离上的最小增益：-96 ~ +12分贝 默认为-96分贝。<p></p>
+<p></p><h3>最大增益（Maximum Gain）</h3><br>任意距离上的最大增益：-96 ~ +12分贝 默认为+12分贝。<p></p>
+<p></p><h3>统一增益距离（Unity Gain Distance）</h3><br>增益是0分贝的距离：0.05 ~ 无穷大米 默认为1米。<p></p>
+<p></p><h3>房间尺寸</h3><br>空间声模拟的房间的尺寸。房间的尺寸有small（办公室到小会议室），medium（大型会议室）和large（礼堂）。还可以指定为none用于模拟户外环境。默认房间的尺寸是小型。<p></p>
+<p></p><h3>例子</h3><br>HoloToolkit for Unity提供了一个静态类，可以使空间声设置变得容易。该类可以在HoloToolkit/SpatialSound文件夹中找到，可以从项目中的任何脚本调用。建议在项目中的每个音频源组件上设置这些参数。以下示例显示为附加音频源选择中等房间尺寸。<br>AudioSource audioSource = gameObject.GetComponent<audiosource>()<br>if (audioSource != null) {<br>    SpatialSoundSettings.SetRoomSize(audioSource, SpatialMappingRoomSizes.Medium);<br>}<p></p>
+<p></p><h3>从Unity直接访问参数</h3><br>如果不想使用HoloToolkit中优秀的音频工具，可以通过更改HRTF参数来实现。可将以下代码放入SetHRTF.cs文件中并附加在每个HRTF AudioSource组件上，随后就能更改主要参数。<br>using UnityEngine;<br>using System.Collections;<br>public class SetHRTF : MonoBehaviour    {<br>   public enum ROOMSIZE { Small, Medium, Large, None };<br>   public ROOMSIZE room = ROOMSIZE.Small;  // Small is regarded as the “most average”<br>   // defaults and docs from MSDN<br>   // <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/mt186602(v=vs.85).aspx" target="_blank" rel="external">https://msdn.microsoft.com/en-us/library/windows/desktop/mt186602(v=vs.85).aspx</a><br>   public float mingain = -96f; // The minimum gain limit applied at any distance, from -96 to + 12<br>   public float maxgain = 12f;  // The maximum gain applied at any distance, from -96 to + 12<br>   public float unityGainDistance = 1; // The distance at which the gain applied is 0dB, from 0.05 to infinity<br>   public float bypassCurves = 1; // if &gt; 0, will bypass Unity’s volume attenuation and make a more accurate volume simulation automatically in the plugin<br>   AudioSource audiosource;<br>   void Awake()<br>   {<br>       audiosource = this.gameObject.GetComponent<audiosource>();<br>       if (audiosource == null)<br>       {<br>           print(“SetHRTFParams needs an audio source to do anything.”);<br>           return;<br>       }<br>       audiosource.spatialize = 1; // we DO want spatialized audio<br>       audiosource.spread = 0; // we dont want to reduce our angle of hearing<br>       audiosource.spatialBlend = 1;   // we do want to hear spatialized audio<br>       audiosource.SetSpatializerFloat(1, (float)room);    // 1 is the roomsize param<br>       audiosource.SetSpatializerFloat(2, mingain); // 2 is the mingain param<br>       audiosource.SetSpatializerFloat(3, maxgain); // 3 is the maxgain param<br>       audiosource.SetSpatializerFloat(4, unityGainDistance); // 4 is the unitygain param<br>       audiosource.SetSpatializerFloat(5, bypassCurves );    // 5 is bypassCurves, which is usually a good idea<br>   }<br>}<p></p>
+<p>资料来源：<a href="https://developer.microsoft.com/en-us/windows/mixed-reality/spatial_sound_in_unity" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/mixed-reality/spatial_sound_in_unity</a></p>
+</audiosource></audiosource>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/25/HoloLens/HoloLens+Unity 坐标保持.md/" itemprop="url">
+                  HoloLens+Unity 坐标保持
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-25T14:13:12+08:00" content="2017-05-25">
+              2017-05-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/HoloLens/" itemprop="url" rel="index">
+                    <span itemprop="name">HoloLens</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/25/HoloLens/HoloLens+Unity 坐标保持.md/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/25/HoloLens/HoloLens+Unity 坐标保持.md/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Namespace： UnityEngine.WSA.VR.Persistence<br>Class: WorldAnchorStore</p>
+<p>WorldAnchorStore是创建全息体验的关键，其中全息图（holograms）保留在应用程序实例的特定现实世界中。这可以让您的用户将各个全息图或工作空间固定在任何需要的地方，然后根据用途在需要的时候找到它们。</p>
+<p></p><h1>如何在会话间保持全息图</h1><br>WorldAnchorStore将允许您保持WorldAnchor跨会话（session）的位置。为了在会话中实际保留全息图，您需要单独跟踪使用特定世界锚点的GameObjects。创建具有世界锚点的GameObject根，再根据局部位置偏移确定子全息图。<p></p>
+<p></p><h3>获得WorldAnchorStore</h3><br>WorldAnchorStore.GetAsync(StoreLoaded);<br>private void StoreLoaded(WorldAnchorStore store)<br>{<br>       this.store = store;<br>}<p></p>
+<p></p><h3>保存WorldAnchor</h3><br>保存时，我们只需要命名我们正在保存的，并将其传递给以前保存的WorldAnchor。注意：尝试将两个锚保存到同一个字符串将失败（store.Save将返回false）。在保存新的之前，需要删除旧的保存。<br>private void SaveGame()<br>{<br>       // Save data about holograms positioned by this world anchor<br>       if (!this.savedRoot) // Only Save the root once<br>       {<br>              this.savedRoot = this.store.Save(“rootGameObject”, anchor);<br>              Assert(this.savedRoot);<br>       }<br>}<p></p>
+<p></p><h3>读取WorldAnchor</h3><br>private void LoadGame()<br>{<br>       // Save data about holograms positioned by this world anchor<br>       this.savedRoot = this.store.Load(“rootGameObject”, rootGameObject);<br>       if (!this.savedRoot)<br>       {<br>              // We didn’t actually have the game root saved! We have to re-place our objects or start over<br>       }<br>}<br>还可以使用store.Delete（）来删除我们以前保存的锚，store.Clear（）来删除所有以前保存的数据。<p></p>
+<p></p><h3>枚举存在的Anchors</h3><br>string[] ids = this.store.GetAllIds();<br>for (int index = 0; index &lt; ids.Length; index++)<br>{<br>        Debug.Log(ids[index]);<br>}<p></p>
+<p>资料来源：<a href="https://developer.microsoft.com/en-us/windows/mixed-reality/persistence_in_unity" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/mixed-reality/persistence_in_unity</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/05/24/HoloLens/HoloLens+Unity 语音输入/" itemprop="url">
                   HoloLens+Unity 语音输入
                 </a>
@@ -1151,390 +1558,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/28/游戏策划/游戏系统/2.职业/" itemprop="url">
-                  2.职业系统
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-28T20:12:33+08:00" content="2017-03-28">
-              2017-03-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/游戏系统/" itemprop="url" rel="index">
-                    <span itemprop="name">游戏系统</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/03/28/游戏策划/游戏系统/2.职业/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/28/游戏策划/游戏系统/2.职业/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>系统目标<br>1.对玩家或角色的职能进行区分，不同职业拥有的功能不同，例如输出、坦克、治疗等。<br>2.提高角色多样性，不同职业以及搭配能给予多样的新鲜感。<br>3.可以设置职业克制，在一定条件下筛选出“最优”选择。</p>
-<p>实现方法<br>1.设置不同职业供玩家选择。<br>2.达到要求时可进行下一步职业进阶（二转）。<br>3.特定条件下可更换职业。<br>4.特定游戏中可以同时拥有多职业。</p>
-<p>种类<br>按功能分类：<br>输出：<br>1.根据攻击距离不同，分为远程输出与近战输出。<br>2.根据输出方式不同，分为物理输出与魔法输出。<br>3.根据输出属性不同，分为各类属性攻击，如火、冰、雷。<br>4.根据输出时能否兼顾走位，分为站桩输出与移动输出。<br>5.根据输出目标的多少，分为单体输出与群体输出。<br>6.根据输出的生效时间，分为瞬时输出与滞后输出。</p>
-<p>治疗：<br>1.根据治疗生效时间，分为即时治疗、持续治疗与预先治疗。<br>2.根据治疗目标的多少，分为单体治疗与群体治疗。<br>3.根据治疗时能否兼顾走位，分为站桩治疗与移动治疗。</p>
-<p>坦克：<br>1.根据防御方式不同，分为物抗坦克、魔抗坦克、闪避坦克（还有格挡、招架等）。<br>2.根据能否自我治疗，分为自疗坦克与非自疗坦克。<br>3.根据属性倾向不同，分为护甲型（高减伤）与血量型（高血量）。</p>
-<p>辅助：<br>1.根据辅助技能的性能不同，分为增强辅助与削弱辅助。<br>2.根据目标数量不同，分为自身、单体、群体辅助。<br>3.根据辅助技能种类不同，分为硬控（受控者无法操作，如晕眩、睡眠）、软控（受控者可以操作但受限，如减速、致盲）、削弱（降低属性）、战斗增益（增强属性）、非战斗增益（传送、造食）。</p>
-<p>职业倾向可以由以上不同的功能进行组合后得出。以WoW为例，冰法属于远程、魔法、冰系、半站桩半移动、单体倾向的爆发输出，同时拥有预先治疗手段（冰盾），擅长对敌方单体与群体进行硬控与软控（深度冻结与冰霜新星）。以WOT为例，重坦一般属于较近战、站桩、单体瞬时输出，兼具护甲型坦克的属性。</p>
-<p>按职业名分类：<br>战士系：</p>
-<p>骑士系：</p>
-<p>法师系：</p>
-<p>牧师系：</p>
-<p>射手系：</p>
-<p>盗贼系：</p>
-<p>按归属势力分类：<br>门派、国家、种族、势力等</p>
-<p>按种类分类：<br>例如按使用兵器分类、按舰种分类、按枪支分类等。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/28/游戏策划/游戏系统/1.等级/" itemprop="url">
-                  1.等级系统
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-28T13:04:15+08:00" content="2017-03-28">
-              2017-03-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/游戏系统/" itemprop="url" rel="index">
-                    <span itemprop="name">游戏系统</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/03/28/游戏策划/游戏系统/1.等级/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/28/游戏策划/游戏系统/1.等级/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>系统目标<br>1.量化玩家成长<br>对于大目标（满级）进行分解，分成各个阶段性小阶段，让玩家总能够找到一个就快要完成的小目标，完成后再开放下一个，促使玩家继续努力。并且在进行一段时间游戏后能够从数值上了解自己在哪些方面成长了，成长了多少，进而达到付出就有收获的满足感。</p>
-<p>2.直观的实力区分<br>对于各类等级（玩家等级，装备等级，随从等级等）进行加权求和可以得出战斗力（装备分），能够作为玩家的实力证明之一。在进行玩家对战或者组队时可以作为事前评估。同样也可以作为炫耀的资本之一。</p>
-<p>3.限制游戏内容<br>同样作为目标之一，常见于随等级开放的主线任务与剧情，或是装备的等级要求。目标明确的情况下，为了达到下一阶段玩家同样会付出努力进行等级的提升。</p>
-<p>实现方法<br>1.完成对战<br>最常见的获取方式。通过完成对敌方的击杀、副本的通过、与玩家的对战获取经验值。而玩家在此过程中不断重复着练级的过程，体验游戏的主要内容。一般作为单机，端游的主要经验值获取形式。</p>
-<p>2.任务获取<br>任务作为一种明确目标，在对战之余给予玩家第二种等级提升渠道。一般在对战，探索的基础上加入了剧情与物品奖励，且性价比较高。每日任务可作为休闲玩家的主要等级提升渠道，同时也能提高用户粘性。</p>
-<p>3.使用物品<br>使用经验狗粮一类的物品进行玩家、随从的等级提升，使用金钱以及材料进行装备、物品的等级提升。相比于对战与任务更加快速，省事。一般作为手游、页游的主要经验值获取形式。</p>
-<p>种类：<br>1.玩家等级<br>RPG游戏中作为实力的数值体现。随着等级的提高，人物属性、技能也将随之提高，实力逐步增强。<br>玩家对战游戏中作为作为实力或资历的体现。由于玩家对战需要公平，一般只会轻微或者不影响实力，但是等级高低能够反应玩家投入的时间。<br>卡牌手游中一般作为资历的体现。一般只会影响主线的推进或者体力的上限。</p>
-<p>2.装备等级<br>一方面是装备的本身具有的属性带来的“等级”区分。越稀有的装备属性越高，因此也常用颜色区分装备的属性等级（也可以说是稀有度）。<br>另一方面是针对特定装备进行的强化、附加物品（宝石）等。因为可以设置为难以提升且不影响游戏的主体体验，常作为游戏后期的主要目标之一。</p>
-<p>3.技能等级<br>通过技能等级的成长提高技能的伤害、附加效果、减少冷却时间等。生活技能的成长能允许玩家制造或生产更多的材料。可以通过限制技能数量、技能点的获取迫使玩家必须做出抉择，需要加哪一些技能、加几点、哪个先加。游戏可玩性的重要组成部分之一。</p>
-<p>4.角色等级<br>卡牌游戏的重要组成部分，也就是核心的养成部分。如暗黑系列的随从、舰队Collection的老婆们、Fate Grand Order的Servant等。可以进一步细分为角色本身等级，角色羁绊等级。</p>
-<p>5.物品等级<br>可以用来衡量物品的使用属性、稀有度等，例如各种等级的回复药、属性宝石等。</p>
-<p>6.职业等级<br>一般与玩家等级绑定，但极少数游戏中与玩家等级分离（如RO仙境传说）。设置两种不同的等级成长线好处在于转职后的技能获取更加迅速。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/26/游戏策划/美术风格/美术风格/" itemprop="url">
-                  美术风格
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-26T18:14:25+08:00" content="2017-03-26">
-              2017-03-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/美术风格/" itemprop="url" rel="index">
-                    <span itemprop="name">美术风格</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/03/26/游戏策划/美术风格/美术风格/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/26/游戏策划/美术风格/美术风格/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1580,7 +1603,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
