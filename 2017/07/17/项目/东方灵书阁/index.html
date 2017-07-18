@@ -1,0 +1,679 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="东方,弹幕射击," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="游戏的制作时间为2013年3月至4月，算是本科期间第一款制作比较完整的游戏，为东方系列的同人游戏。项目有美术，音乐，程序，策划各一人，本人主要负责功能实现，素材整合与代码编写。游戏使用C++的SDL多媒体库，为Windows平台单机游戏。
+操纵方式为一般的竖版弹幕射击游戏。上下左右（wasd）操纵人物移动，shift键减半移动速度并显示碰撞判定点。其他按键功能如图所示。
+游戏指南后进入游戏主界面，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="东方灵书阁">
+<meta property="og:url" content="http://kangarootao.github.io/2017/07/17/项目/东方灵书阁/index.html">
+<meta property="og:site_name" content="Kangarootao的主页">
+<meta property="og:description" content="游戏的制作时间为2013年3月至4月，算是本科期间第一款制作比较完整的游戏，为东方系列的同人游戏。项目有美术，音乐，程序，策划各一人，本人主要负责功能实现，素材整合与代码编写。游戏使用C++的SDL多媒体库，为Windows平台单机游戏。
+操纵方式为一般的竖版弹幕射击游戏。上下左右（wasd）操纵人物移动，shift键减半移动速度并显示碰撞判定点。其他按键功能如图所示。
+游戏指南后进入游戏主界面，">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Instruction.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/MainMenu.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/MusicRoom.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/DifficultySelection.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game1.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game2.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game3.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game4.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game5.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game6.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game7.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game8.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game9.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game10.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game11.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game12.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game13.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game14.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game15.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game16.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game17.png">
+<meta property="og:image" content="http://kangarootao.github.io/images/touhou/Game18.png">
+<meta property="og:updated_time" content="2017-07-17T16:28:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="东方灵书阁">
+<meta name="twitter:description" content="游戏的制作时间为2013年3月至4月，算是本科期间第一款制作比较完整的游戏，为东方系列的同人游戏。项目有美术，音乐，程序，策划各一人，本人主要负责功能实现，素材整合与代码编写。游戏使用C++的SDL多媒体库，为Windows平台单机游戏。
+操纵方式为一般的竖版弹幕射击游戏。上下左右（wasd）操纵人物移动，shift键减半移动速度并显示碰撞判定点。其他按键功能如图所示。
+游戏指南后进入游戏主界面，">
+<meta name="twitter:image" content="http://kangarootao.github.io/images/touhou/Instruction.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 东方灵书阁 | Kangarootao的主页 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Kangarootao的主页</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                东方灵书阁
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-17T23:04:39+08:00" content="2017-07-17">
+              2017-07-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/项目经历/" itemprop="url" rel="index">
+                    <span itemprop="name">项目经历</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/07/17/项目/东方灵书阁/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/17/项目/东方灵书阁/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>游戏的制作时间为2013年3月至4月，算是本科期间第一款制作比较完整的游戏，为东方系列的同人游戏。项目有美术，音乐，程序，策划各一人，本人主要负责功能实现，素材整合与代码编写。游戏使用C++的SDL多媒体库，为Windows平台单机游戏。</p>
+<p>操纵方式为一般的竖版弹幕射击游戏。上下左右（wasd）操纵人物移动，shift键减半移动速度并显示碰撞判定点。其他按键功能如图所示。<br><img src="/images/touhou/Instruction.png" alt=""></p>
+<p>游戏指南后进入游戏主界面，可选择正常开始游戏Game Start（三条命），练习模式Practice（无限命），分数排行Score，音乐欣赏Music Room，选项Option（调整音效与背景音乐的音量），退出Quit。<br><img src="/images/touhou/MainMenu.png" alt=""></p>
+<p>在音乐欣赏界面，可以选择播放本作中的共计7首曲子，2首原创曲以及5首变奏曲。还可以观看作曲者对于音乐的描述与对玩家的寄语。<br><img src="/images/touhou/MusicRoom.png" alt=""></p>
+<p>而选择了开始游戏或练习模式后，将可以选择难度。共设置了简单普通困难三个难度。而难度的控制是通过随机弹幕的弹幕数量，子弹的发射速度来控制的。<br><img src="/images/touhou/DifficultySelection.png" alt=""></p>
+<p>选择难度后进入战斗界面，会首先通过对话方式介绍剧情。对话由左侧我方人物立绘，右侧敌方人物立绘，半透明的对话框以及对话文字组成，类似于传统的Galgame游戏，目前并没有人物配音。战斗界面中骑着扫帚的魔理沙为本作的主角，玩家将控制她的移动与输出，规避敌方火力并对敌方进行火力投射。被子弹击中直接扣除一条命，进入短时间的无敌状态并重生在画面下方。右侧显示玩家得分，通过击落敌方，收集分数块增加。血槽，代表玩家的命，普通模式仅有三条命，被击中将减少三分之一的量。能量槽，通过收集能量块增加，每收集一定量之后能够加强己方火力，达到最大火力后将不会再掉落能量块，转为掉落能增加分数的分数结晶。<br><img src="/images/touhou/Game1.png" alt=""></p>
+<p>接下来是一部分简单模式的游戏截图。<br><img src="/images/touhou/Game2.png" alt=""></p>
+<p><img src="/images/touhou/Game3.png" alt=""></p>
+<p><img src="/images/touhou/Game4.png" alt=""></p>
+<p><img src="/images/touhou/Game5.png" alt=""></p>
+<p><img src="/images/touhou/Game6.png" alt=""></p>
+<p><img src="/images/touhou/Game7.png" alt=""></p>
+<p><img src="/images/touhou/Game8.png" alt=""></p>
+<p><img src="/images/touhou/Game9.png" alt=""></p>
+<p><img src="/images/touhou/Game10.png" alt=""></p>
+<p><img src="/images/touhou/Game11.png" alt=""></p>
+<p><img src="/images/touhou/Game12.png" alt=""></p>
+<p><img src="/images/touhou/Game13.png" alt=""></p>
+<p><img src="/images/touhou/Game14.png" alt=""></p>
+<p><img src="/images/touhou/Game15.png" alt=""></p>
+<p>接下来是一部分困难模式的游戏截图。<br><img src="/images/touhou/Game16.png" alt=""></p>
+<p><img src="/images/touhou/Game17.png" alt=""></p>
+<p><img src="/images/touhou/Game18.png" alt=""><br>（我承认困难模式的最终BOSS过于暴走了基本很难无伤通过=-=）</p>
+<p>共计三个关卡，通过之后播放结尾CG画面，制作人员表，最终游戏结束返回主菜单界面。</p>
+<p>杂谈：<br>这款游戏应该是我第一款小组协力制作的游戏。项目负责人，也就是我们的主策划提供想法，拉来了美术与音乐大佬（都是以前同学），加上我一个程序完成了这款游戏。没有使用其他游戏引擎是因为希望尝试从零开始制作一款游戏。初中时候用过RPGMAKER，感觉就是在已经搭好的框架里加东西，限制挺大的。这里主要难点在于弹幕的设计与实现。策划给了我各阶段弹幕的设计图，而我需要使用代码去达成给定效果，同时还要通过变量区分三种难度，并进行不断的测试。这里大量使用了随机数产生速度与方向，正弦余弦函数产生圆形效果，玩家位置跟踪进行锁定射击等方法。最终版本在难度控制上还有些瑕疵，而且还有新的系统可以添加，倘若以后有时间再制作重置版吧（</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/东方/" rel="tag">#东方</a>
+          
+            <a href="/tags/弹幕射击/" rel="tag">#弹幕射击</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/25/HoloLens/HoloLens+Unity 空间映射/" rel="next" title="HoloLens+Unity 空间映射">
+                <i class="fa fa-chevron-left"></i> HoloLens+Unity 空间映射
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/18/项目/VR校园坦克大战/" rel="prev" title="VR校园坦克大战">
+                VR校园坦克大战 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/07/17/项目/东方灵书阁/"
+           data-title="东方灵书阁" data-url="http://kangarootao.github.io/2017/07/17/项目/东方灵书阁/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Kangarootao" />
+          <p class="site-author-name" itemprop="name">Kangarootao</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/kangarootao" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/kangarootao" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kangarootao</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kangarootao"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
