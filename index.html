@@ -240,6 +240,265 @@
             
               
                 
+                <a class="post-title-link" href="/2017/07/23/游戏策划/数值/崩坏3rd抽卡概率/" itemprop="url">
+                  崩坏3rd抽卡概率研究
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-23T21:33:32+08:00" content="2017-07-23">
+              2017-07-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/数值研究/" itemprop="url" rel="index">
+                    <span itemprop="name">数值研究</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/07/23/游戏策划/数值/崩坏3rd抽卡概率/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/23/游戏策划/数值/崩坏3rd抽卡概率/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>研究的起点是游戏中精准补给的概率，四星武器概率4.958%，四星圣痕概率7.437%，当期up武器概率2.479%，圣痕每个1.240%，而保底是保底四星（大奖），且是在出过四星后重置保底所需数量。这概率不像一般其他游戏显示的是1%，1.5%等较整的数而是一个精确的小数，这令人费解，而且体感上来说并没有这么高的单次出率。而扩充和标配则是1.5%，1.33%出s级女武神（即大奖），是一个较整的数，这两者的区别在于保底出的是否为当期大奖。那么，精准补给的概率是否是加入保底后进行计算的呢？仔细研究说明后发现并没有说明，以下为试验性计算。</p>
+<p>显示概率：<br>up武器：2.479%<br>up单圣痕：1.240%<br>四星：4.958%+7.437% = 12.395%<br>假设保底时概率分布与显示概率一致。<br>假设显示概率是加入保底计算的单次抽卡的期望概率。</p>
+<p>1.保底策略：连续十次抽卡必定至少有一个四星，即出了四星后重置计数器。<br>设单次抽取的真实概率：<br>up武器：y<br>四星：x<br>x = 5 <em> y<br>抽到一个四星的平均次数：<br>m = 1 </em> x + 2 <em> x </em> (1 - x) + 3 <em> x </em> (1 - x) ^ 2 + … + 9 <em> x </em> (1 - x) ^ 8 + 10 * (1 - x) ^ 9<br>m = 1 / 12.395% = 8.06777<br>九次方程，不好解。但是x取值范围为[0,1]，所以可以用程序暴力搜索求近似值。<br>python程序：<br>x = 0<br>step = 0.00001<br>mmin = 99999</p>
+<p>def func(x, n):<br>&nbsp;&nbsp;result = 0.0<br>&nbsp;&nbsp;for i in range(0, n-1):<br>&nbsp;&nbsp;&nbsp;&nbsp;result += (i + 1) <em> x </em> (1 - x) ^ i<br>&nbsp;&nbsp;result += n * (1 - x) ^ (n - 1)<br>&nbsp;&nbsp;return result</p>
+<p>while(x&lt;1):<br>&nbsp;&nbsp;x += step<br>&nbsp;&nbsp;result = func(x, 10)<br>&nbsp;&nbsp;if abs(result - 8.06777) &lt; mmin:<br>&nbsp;&nbsp;&nbsp;&nbsp;mmin = abs(result - 8.06777)<br>&nbsp;&nbsp;&nbsp;&nbsp;ans = x</p>
+<p>print(ans)</p>
+<p>运行结果为：0.04877<br>也就是说在没有保底的情况下，单抽出四星的概率为4.88%，比较符合真实情况。推断：显示概率为期望概率。</p>
+<p>2.保底策略：十连抽必定至少有一个四星，每次十连独立计算。<br>设单次抽取的真实概率：<br>up武器：y<br>四星：x<br>x = 5 * y</p>
+<p>进行一次十连，无保底时，抽到四星的期望个数：<br>10 <em> x<br>连续九次都没抽到四星的概率：<br>(1 - x) ^ 9<br>加入保底后，这部分概率产生的四星个数由0变成1，四星期望个数增加：<br>(1 - x) ^ 9<br>所以加入保底后抽到四星的期望个数：<br>n = 10 </em> x + (1 - x) ^ 9 = 10 * 12.395%</p>
+<p>同样使用程序解方程，结果为0.07378</p>
+<p>总结：<br>为了达到12.395%的预期概率，第一种保底策略的单次抽取真实概率为4.88%，第二种保底策略的单次抽取真实概率为7.38%，第一种保底策略较第二种提高了不少的预期出率，而崩坏3rd属于少见的使用第一种保底策略的。在游戏中，卡池说明单次抽取四星概率为12.395%与4.88%都是没有问题的，而前者将给予玩家“出率还挺高，我再抽抽就出了”的错觉。并且，一次抽取开两箱的设定也给予玩家一次十连相当于二十连的错觉（刚入坑我也是被这么骗的），能够很大程度上吸引玩家继续抽卡。<br>使用预期概率另一个好处在于，计算期望花费十分方便，不需要考虑保底的问题。</p>
+<p>例如强怼一把冰昙天。<br>648rmb = 8088钻 = 28.89抽<br>1抽 = 22.43rmb<br>up武器期望概率为2.479%<br>期望花费：<br>22.43 / 2.479% = 904.8rmb</p>
+<p>例如强怼一套浓姬圣痕。<br>单up圣痕期望概率为1.240%<br>期望花费：<br>22.43 / (1.240% <em> 3) + 22.43 / (1.240% </em> 2) + 22.43 / 1.240% = 3316.3rmb</p>
+<p>比起抽角色来还是简单不少的。也说明了新的精准补给的收入一般是不如扩充补给的，除非什么好东西都塞进去了，不过会减少游戏寿命。而且扩充还能抽到SSS，对于微氪也算是半个无底洞吧。（理性氪金= =）</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/21/游戏策划/数值/崩坏3rd伤害公式/" itemprop="url">
+                  崩坏3rd伤害公式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-21T19:52:42+08:00" content="2017-07-21">
+              2017-07-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/数值研究/" itemprop="url" rel="index">
+                    <span itemprop="name">数值研究</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/07/21/游戏策划/数值/崩坏3rd伤害公式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/21/游戏策划/数值/崩坏3rd伤害公式/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>根据论坛的实验结论：<br>元素伤害 = (攻击力<em>系数+被动元素伤害)</em>(1+元素伤害Buff)<em>(1+全伤害Buff)</em>(1+减伤+Debuff+属性克制)<br>物理伤害 = (攻击力<em>系数)</em>(1+物理伤害Buff)<em>(1+全伤害Buff)</em>(1+减伤+防御力减伤+Debuff+属性克制)<br>暴击率=会心/(75+5*角色等级)<br>属性克制系数为+-0.3<br>精英护盾减伤为20%<br>Boss护盾减伤为50%</p>
+<p>例如计算本萌新的勿忘的单发斩击伤害：<br>面板攻击682，会心72<br>武器lv35冰昙天，提升7.0%元素伤害，主动增加冰冻元素伤害16%<br>圣痕浓姬套。lv45上提升对冻结敌人全伤害33%。lv35中攻击附带50%攻击力的冰冻元素伤害，1s冷却。lv35下每有一个移速降低或冻结的敌人提升15%冰冻元素伤害，最多三层。套装提升冰冻元素伤害80%。<br>使用必杀技后全伤害提升40%。<br>被动增加对眩晕，麻痹，冻结，时空减速敌人的物理和元素伤害35.9%。<br>强化斩击造成100%攻击力的物理伤害+500%攻击力的冰冻元素伤害。</p>
+<p>0Buff无克制情况：<br>物理伤害 = 682<em>1</em>1<em>1 = 682<br>暴击率 = 72/(75+5</em>65)= 18%<br>期望物理伤害 = 682<em>1.18 = 804.8<br>冰冻元素伤害 = 682</em>5<em>(1+0.07+0.8)</em>1*1 = 6376.7</p>
+<p>3怪减速无克制情况：<br>物理伤害不变<br>冰冻元素伤害 = 682<em>5</em>(1+0.07+0.8+0.45)<em>1</em>1 = 7911.2</p>
+<p>3怪冻结无克制情况：<br>物理伤害 = 682<em>(1+0.359)</em>(1+0.33)<em>1 = 1232.7<br>冰冻元素伤害 = 682</em>5<em>(1+0.07+0.8+0.45+0.359)</em>(1+0.33)*1 = 12150</p>
+<p>必杀技后3怪冻结开武器主动克制情况：<br>物理伤害 = 682<em>(1+0.359)</em>(1+0.33+0.4)<em>(1+0.3) = 2084.5<br>冰冻元素伤害 = 682</em>5<em>(1+0.07+0.8+0.45+0.359+0.16)</em>(1+0.33+0.4)*(1+0.3) = 21772.5</p>
+<p>未完待续…</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/07/18/项目/VR校园坦克大战/" itemprop="url">
                   VR校园坦克大战
                 </a>
@@ -1303,270 +1562,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/23/HoloLens/HoloLens+Unity 坐标系统/" itemprop="url">
-                  HoloLens+Unity 坐标系统
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-05-23T20:53:39+08:00" content="2017-05-23">
-              2017-05-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/HoloLens/" itemprop="url" rel="index">
-                    <span itemprop="name">HoloLens</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/05/23/HoloLens/HoloLens+Unity 坐标系统/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/23/HoloLens/HoloLens+Unity 坐标系统/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>HoloLens支持不同的体验范围（experience scales）。有orientation-only, seated-scale, room-scale, world-scale等几种。</p>
-<p></p><h1>Orientation-only or Seated-scale Experience</h1><br>Namespace: UnityEngine.VR<br>Type: InputTracking<br>可以直接在Unity的世界坐标系中进行编辑，出现在相机视野里的物体将出现在应用中。<p></p>
-<p>纯粹的orientation-only experience:<br>InputTracking.disablePositionalTracking = true;</p>
-<p>seated-scale experience中重新调整seat位置：<br>InputTracking.Recenter();</p>
-<p></p><h1>Standing-scale or Room-scale Experience</h1><br>Namespace: UnityEngine.VR.WSA<br>Type: StageRoot<br>第一次开启时检测地板与房间边界（墙壁）的位置，定义的物体将在此范围内。<p></p>
-<p>要将Unity层次结构的分支定位到用户定义的层起始点，需将StageRoot组件添加到根游戏对象，随后这个对象将保持在指定的位置。<br>在脚本中可以通过调用StageRoot中的TryGetBounds方法获得边界多边形，随后即可进行碰撞检测。注意系统将在用户碰到时自动显示边界。</p>
-<p></p><h1>World-scale Experience</h1><br>Namespace: UnityEngine.VR.WSA<br>Type: WorldAnchor<p></p>
-<p>world-scale experience允许用户移动超过5米，这需要些额外的新技术。一种是空间锚点（spatial anchor）。不管用户走到哪，锚点会保存一系列的物理世界中全息图（holograms）以便后面使用。<br>在unity中，添加WorldAnchor组件给GameObject即可创建空间锚点。</p>
-<p></p><h3>添加WorldAnchor</h3><br>WorldAnchor anchor = gameObject.AddComponent<worldanchor>();<p></p>
-<p></p><h3>移除添加WorldAnchor</h3><br>当前帧不移动<br>Destroy(gameObject.GetComponent<worldanchor>());<br>当前帧移动<br>DestroyImmediate(gameObject.GetComponent<worldanchor>());<p></p>
-<p></p><h3>移动锚点物体</h3><br>DestroyImmediate(gameObject.GetComponent<worldanchor>());<br>gameObject.transform.position = new Vector3(0, 0, 2);<br>WorldAnchor anchor = gameObject.AddComponent<worldanchor>();<p></p>
-<p></p><h3>处理可定位变化</h3><br>WorldAnchor在某个时间点可能无法在物理世界中找到。如果发生这种情况，Unity将不会更新锚点对象的变换。这也可以在应用程序运行时更改。不能处理可定位性的变化将导致物体不会出现在世界上正确的物理位置。需要注册OnTrackingChanged事件，随后处理事件。OnTrackingChanged事件将在空间锚点可定位与不可定位切换时触发。<br>anchor.OnTrackingChanged += Anchor_OnTrackingChanged;<br>private void Anchor_OnTrackingChanged(WorldAnchor self, bool located)<br>{<br>       // This simply activates/deactivates this object and all children when tracking changes<br>    self.gameObject.SetActiveRecursively(located);<br>}<br>调用<br>Anchor_OnTrackingChanged(anchor, anchor.isLocated);<p></p>
-<p>资料来源：<a href="https://developer.microsoft.com/en-us/windows/mixed-reality/Coordinate_systems_in_Unity.html#building_a_standing-scale_or_room-scale_experience" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/mixed-reality/Coordinate_systems_in_Unity.html#building_a_standing-scale_or_room-scale_experience</a></p>
-</worldanchor></worldanchor></worldanchor></worldanchor></worldanchor>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/23/HoloLens/HoloLens+Unity 开发环境搭建/" itemprop="url">
-                  HoloLens+Unity 开发环境搭建
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-05-23T20:22:55+08:00" content="2017-05-23">
-              2017-05-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/HoloLens/" itemprop="url" rel="index">
-                    <span itemprop="name">HoloLens</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/05/23/HoloLens/HoloLens+Unity 开发环境搭建/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/23/HoloLens/HoloLens+Unity 开发环境搭建/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>毕业设计选择了在HoloLens上进行应用开发，这里记录一下HoloLens的学习过程。目前打算制作基于HoloLens的三维中国象棋游戏，采用了Unity作为开发工具，毕竟微软提供了各种API接口供调用，应该算是最快速的开发方式之一了。</p>
-<p></p><h1>开发环境搭建</h1><br>1.Visual Studio 2017 微软产品通用的开发工具。在Unity游戏完成后将其作为VS文件导出，再通过Visual Studio打开，编译并运行。<br>2.HoloLens Emulator HoloLens模拟器，其实就是虚拟机。需要Windows 10专业版或教育版才能运行，因为需要Hyper-V支持。Mac电脑可以装双系统的Windows使用模拟器，但是需要在Bootcamp中设置windows系统为首选系统开启才能使用，不然会检测到BIOS不支持虚拟机进而打不开模拟器。<br>3.Unity 5.5版本以上 游戏的主要开发环境，需要为HoloLens的使用进行配置。<br>Select File &gt; Build Settings…<br>Select Windows Store in the Platform list and click Switch Platform<br>Set SDK to Universal 10<br>Set Target device to Any Device to support immersive headsets or switch to HoloLens<br>Set Build Type to D3D<br>Set UWP SDK to Latest installed<p></p>
-<p>From the Build Settings… window, open Player Settings…<br>Select the Settings for Windows Store tab<br>Expand the Other Settings group<br>In the Rendering section, check the Virtual Reality Supported checkbox to add a new Virtual Reality Devices list and confirm “Windows Mixed Reality” is listed as a supported device (this will appear as “Windows Holographic” on some versions of Unity)</p>
-<p>一些功能需要额外开启<br>Player Settings &gt; Windows Store &gt; Publishing Settings &gt; Capabilities<br>SpatialPerception: SurfaceObserver<br>WebCam: PhotoCapture and VideoCapture<br>PicturesLibrary/VideosLibrary: PhotoCapture or VideoCapture, respectively (when storing the captured content)<br>Microphone: VideoCapture (when capturing audio), DictationRecognizer, GrammarRecognizer, and KeywordRecognizer<br>InternetClient: DictationRecognizer (and to use the Unity Profiler)</p>
-<p>HoloLens的GPU仅是移动版的，需要降低图像质量来获得更高的速度<br>Select Edit &gt; Project Settings &gt; Quality<br>Select the dropdown under the Windows Store logo and select Fastest. You’ll know the setting is applied correctly when the box in the Windows Store column and Fastest row is green.</p>
-<p>场景中的主相机需要进行设定<br>In the Inspector panel, set the transform position to 0, 0, 0 so the location of the users head starts at the Unity world origin.<br>Change Clear Flags to Solid Color.<br>Change the Background color to RGBA 0,0,0,0. Black renders as transparent in HoloLens.<br>Change Clipping Planes - Near to the HoloLens recommended 0.85 (meters).</p>
-<p>一些额外的功能可以通过Unity APIs来实现，具体可以在Unity manual或Unity scripting reference中找到</p>
-<p>资料来源：<a href="https://developer.microsoft.com/en-us/windows/mixed-reality/unity_development_overview" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/mixed-reality/unity_development_overview</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1607,7 +1607,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-count">22</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1615,7 +1615,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1624,7 +1624,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
